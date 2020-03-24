@@ -189,7 +189,6 @@ export default class Agenda extends React.Component {
           }
           return (
             <Day
-              currentWeek={this.state.currentWeek}
               styleToday={todayStyle}
               key={day}
               today={day}
@@ -202,7 +201,6 @@ export default class Agenda extends React.Component {
                 if (cl.classDate === day) {
                   return (
                     <EventCard
-                      dataToBeRendered={this.props.dataToBeRendered}
                       classDate={cl.classDate}
                       classTitle={cl.classTitle}
                       classLocation={cl.location}
