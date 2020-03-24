@@ -1,7 +1,7 @@
 import React from "react";
 import Day from "./Day/Day";
 import TimeTables from "./TimeTables/TimeTables";
-import ClassCard from "./ClassCard/ClassCard";
+import EventCard from "./EventCard/EventCard";
 import SideTab from "./SideTab/SideTab";
 import Layout from "./UI/Layout";
 
@@ -201,7 +201,7 @@ export default class Agenda extends React.Component {
               {this.props.dataToBeRendered.map(cl => {
                 if (cl.classDate === day) {
                   return (
-                    <ClassCard
+                    <EventCard
                       dataToBeRendered={this.props.dataToBeRendered}
                       classDate={cl.classDate}
                       classTitle={cl.classTitle}

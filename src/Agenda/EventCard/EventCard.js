@@ -1,5 +1,5 @@
 import React from "react";
-import classes from "./ClassCard.module.css";
+import classes from "./EventCard.module.css";
 
 export default function ClassCard(props) {
   const padToTwo = number => (number <= 9 ? `0${number}` : number);
