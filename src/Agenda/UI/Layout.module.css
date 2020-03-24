@@ -1,0 +1,44 @@
+.AgendaInnerStructure {
+  display: flex;
+  flex-direction: row;
+}
+
+.OutStructure {
+  height: 100%;
+}
+
+.MonthDisplay {
+  position: relative;
+  font-size: 40px;
+  color: #443a3c;
+  position: sticky;
+  top: 0;
+  background-color: white;
+  z-index: 99;
+}
+
+.LeftArrow {
+  position: absolute;
+  left: 0;
+  top: 50%;
+  font-size: 0px;
+  line-height: 0%;
+  width: 0px;
+  border-top: 15px solid #f6f6f6;
+  border-right: 30px solid #04287f;
+  border-bottom: 15px solid #f6f6f6;
+  z-index: 100;
+}
+
+.RightArrow {
+  right: 0;
+  top: 50%;
+  position: absolute;
+  font-size: 0px;
+  line-height: 0%;
+  width: 0px;
+  border-top: 15px solid #f6f6f6;
+  border-left: 30px solid #04287f;
+  border-bottom: 15px solid #f6f6f6;
+  z-index: 100;
+}
