@@ -2,7 +2,9 @@ import React from "react";
 import classes from "./EventCard.module.css";
 
 export default function ClassCard(props) {
+  //adds extra digit(zeros) for numbers upon rendering
   const padToTwo = number => (number <= 9 ? `0${number}` : number);
+  //function that calculates the class start or class end
   const classElapseHandler = (
     classDate,
     classStartHour,
@@ -34,7 +36,8 @@ export default function ClassCard(props) {
     }
   };
 
-  //taking in consideration a global consence that 1px = 1min
+  //taking in consideration a global consence that 1px = 1min below I calculate the position on the card
+  //according to the scheduled time
   const calculateCardTopPositioning =
     (props.classTime.hour - props.classInitialAvailableHour) * 60 +
     props.classTime.minutes;

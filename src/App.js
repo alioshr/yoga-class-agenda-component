@@ -36,7 +36,7 @@ export default class App extends React.Component {
         <Agenda
           dataToBeRendered={this.state.classes}
           agendaInitialAvailableHour={6}
-          agendaLastAvailableHour={22}
+          agendaLastAvailableHour={19}
         />
       </div>
     );

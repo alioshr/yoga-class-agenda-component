@@ -34,8 +34,8 @@
 }
 
 .ChildInnerTable:hover {
-  -moz-box-shadow: inset 0 0 10px #04287f;
-  -webkit-box-shadow: inset 0 0 10px #04287f;
-  box-shadow: inset 0 0 10px #04287f;
+  -moz-box-shadow: inset 0 0 10px #f56157;
+  -webkit-box-shadow: inset 0 0 10px #f56157;
+  box-shadow: inset 0 0 10px #f56157;
   border-radius: 9px;
 }
