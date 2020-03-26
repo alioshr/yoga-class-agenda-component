@@ -1,5 +1,5 @@
 import React from "react";
-import classes from "./Day.module.css";
+import classes from "./DayCard.module.css";
 
 export default class Day extends React.Component {
   render() {

@@ -1,14 +1,27 @@
 import React from "react";
-import Day from "./Day/Day";
+import DayCard from "./DayCard/DayCard";
 import TimeTables from "./TimeTables/TimeTables";
 import EventCard from "./EventCard/EventCard";
 import SideTab from "./SideTab/SideTab";
-import Layout from "./UI/Layout";
+import Layout from "./UI/Layout/Layout";
+import BackdropFilter from "./UI/BackdropFilter/BackdropFilter";
+import Button from "./UI/Button/Button";
+import EventDialogBox from "./UI/EventDialogBox/EventDialogBox";
 
 export default class Agenda extends React.Component {
   state = {
     currentWeek: [],
-    arrayOfDailyHoursTable: []
+    arrayOfDailyHoursTable: [],
+    backdropIsActive: false,
+
+    dialogBoxData: {
+      displayDialogBox: false,
+      topPositionFromClassCard: "",
+      heigthPositionFromClassCard: ""
+    },
+    layoutWidthDimensions: {
+      width: ""
+    }
   };
 
   componentDidMount() {
@@ -166,9 +179,58 @@ export default class Agenda extends React.Component {
       return renderMonth;
     }
   };
+  //by clicking inside a event day card activates the backdrop for that day so I can edit the events or ad new ones
+  dailyEventsBackdropDisplayHandler(day) {
+    if (day) {
+      this.setState(
+        ({ backdropIsActive, ...restTop }) => ({
+          backdropIsActive: day,
+          ...restTop
+        }),
+        () => console.log(this.state.backdropIsActive)
+      );
+    }
+  }
+
+  displayDialogBoxHandler = (
+    day,
+    topPositionFromClassCard,
+    heigthPositionFromClassCard
+  ) => {
+    let displayDialogBox;
+    if (this.state.dialogBoxData.displayDialogBox !== day) {
+      displayDialogBox = day;
+    }
+    if (this.state.dialogBoxData.displayDialogBox === day) {
+      displayDialogBox = false;
+    }
+    this.setState(
+      ({ dialogBoxData, backdropIsActive, ...restTop }) => ({
+        dialogBoxData: {
+          displayDialogBox: displayDialogBox,
+          topPositionFromClassCard: topPositionFromClassCard,
+          heigthPositionFromClassCard: heigthPositionFromClassCard
+        },
+        backdropIsActive: "cover all",
+        ...restTop
+      }),
+      () => console.log(this.state.backdropIsActive)
+    );
+  };
+
+  callbackContainerDimensions = container => {
+    this.setState(({ layoutWidthDimensions, ...restTop }) => ({
+      layoutWidthDimensions: {
+        width: container.offsetWidth
+      },
+      ...restTop
+    }));
+  };
+
   render() {
     return (
       <Layout
+        callbackContainerDimensions={this.callbackContainerDimensions}
         weekNavigationHandler={this.weekNavigationHandler}
         newDatesToVerboseHandler={this.newDatesToVerboseHandler}
         currentWeek={this.state.currentWeek}
@@ -188,19 +250,42 @@ export default class Agenda extends React.Component {
             todayStyle = { backgroundColor: "#f56157", color: "white" };
           }
           return (
-            <Day
+            <DayCard
               styleToday={todayStyle}
               key={day}
               today={day}
               newDatesToVerboseHandler={this.newDatesToVerboseHandler}
             >
+              {this.state.backdropIsActive === "cover all" ? (
+                <BackdropFilter
+                  dailyEventsBackdropDisplayHandler={() =>
+                    this.dailyEventsBackdropDisplayHandler("false")
+                  }
+                />
+              ) : null}
               <TimeTables
+                dailyEventsBackdropDisplayHandler={() =>
+                  this.dailyEventsBackdropDisplayHandler(day)
+                }
                 tableOfAvailableHours={this.state.arrayOfDailyHoursTable}
               />
+              {this.state.backdropIsActive === day ? (
+                <BackdropFilter
+                  dailyEventsBackdropDisplayHandler={() =>
+                    this.dailyEventsBackdropDisplayHandler("false")
+                  }
+                >
+                  <Button
+                    ButtonText="Create a New Class"
+                    buttonClicked={() => this.displayDialogBoxHandler(day)}
+                  />
+                </BackdropFilter>
+              ) : null}
               {this.props.dataToBeRendered.map(cl => {
                 if (cl.classDate === day) {
                   return (
                     <EventCard
+                      currDay={day}
                       classDate={cl.classDate}
                       classTitle={cl.classTitle}
                       classLocation={cl.location}
@@ -210,11 +295,35 @@ export default class Agenda extends React.Component {
                         this.props.agendaInitialAvailableHour
                       }
                       key={cl.id}
+                      displayFullEventCard={this.displayDialogBoxHandler}
+                    />
+                  );
+                }
+                if (this.state.dialogBoxData.displayDialogBox === day) {
+                  return (
+                    <EventDialogBox
+                      currentDate={this.state.dialogBoxData.displayDialogBox}
+                      dimsFromLayoutWidth={
+                        this.state.layoutWidthDimensions.width
+                      }
+                      key={cl.id}
+                      calculateCardTopPositioning={
+                        this.state.dialogBoxData.topPositionFromClassCard
+                      }
+                      calculateCardHeigthPositioning={
+                        this.state.dialogBoxData.heigthPositionFromClassCard
+                      }
+                      classInitialAvailableHour={
+                        this.props.agendaInitialAvailableHour
+                      }
+                      classLastAvailableHour={
+                        this.props.agendaLastAvailableHour
+                      }
                     />
                   );
                 }
               })}
-            </Day>
+            </DayCard>
           );
         })}
         <SideTab />

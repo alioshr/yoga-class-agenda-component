@@ -1,5 +1,4 @@
 .DayCard {
-  height: 100%;
   width: 100%;
   min-width: 12%;
 }
@@ -30,7 +29,6 @@
 
 .ChildInnerTable {
   position: relative;
-  overflow: hidden;
 }
 
 .ChildInnerTable:hover {

@@ -49,9 +49,18 @@ export default function ClassCard(props) {
     top: calculateCardTopPositioning + "px",
     height: calculateCardWidthPositioning + "px"
   };
-
   return (
-    <div className={classes.ClassCard} style={cardPosition}>
+    <div
+      onClick={() =>
+        props.displayFullEventCard(
+          props.currDay,
+          calculateCardTopPositioning,
+          calculateCardWidthPositioning
+        )
+      }
+      className={classes.EventCard}
+      style={cardPosition}
+    >
       <div>
         <div>
           Start: {padToTwo(props.classTime.hour)}:
