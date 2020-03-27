@@ -191,7 +191,7 @@ export default class Agenda extends React.Component {
       }));
     }
   }
-
+  //ligic to run the dialog box. This box will handle create class, edit class & view full class card
   displayDialogBoxHandler = (
     day,
     topPositionFromClassCard,
