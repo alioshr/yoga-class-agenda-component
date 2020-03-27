@@ -11,9 +11,11 @@ export default class Day extends React.Component {
       todayStyle = { backgroundColor: "#f56157", color: "white" };
     }
     let temporaryRemoveBackgroundHoverColor = {};
-    if (this.props.backdropIsActive === "active") {
+    if (this.props.backdropIsActive === "cover all") {
+      console.log("running!");
       temporaryRemoveBackgroundHoverColor.backgroundColor = "white";
     }
+    console.log(temporaryRemoveBackgroundHoverColor);
     return (
       <div
         className={classes.DayCard}

@@ -237,7 +237,6 @@ export default class Agenda extends React.Component {
   };
 
   render() {
-    console.log("backdrop auth", this.state.backdropIsActive);
     return (
       <Layout
         callbackContainerDimensions={this.callbackContainerDimensions}
@@ -254,6 +253,7 @@ export default class Agenda extends React.Component {
         {this.state.currentWeek.map(day => {
           return (
             <DayCard
+              backdropIsActive={this.state.backdropIsActive}
               key={day}
               today={day}
               newDatesToVerboseHandler={this.newDatesToVerboseHandler}
