@@ -9,7 +9,7 @@ export default function EmptyTables(props) {
     renderSingleHour = true;
   }
   return (
-    <div onClick={props.dailyEventsBackdropDisplayHandler}>
+    <div onClick={props.backdropDisplayHandler}>
       {props.tableOfAvailableHours.map(singleHour => {
         //ensure that there only content in the div for the
         // column that displays the hours

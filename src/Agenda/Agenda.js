@@ -180,7 +180,7 @@ export default class Agenda extends React.Component {
     }
   };
   //by clicking inside a event day card activates the backdrop for that day so I can edit the events or ad new ones
-  dailyEventsBackdropDisplayHandler(day) {
+  backdropDisplayHandler(day) {
     if (day) {
       this.setState(({ backdropIsActive, dialogBoxData, ...restTop }) => ({
         backdropIsActive: day,
@@ -213,7 +213,7 @@ export default class Agenda extends React.Component {
       this.state.backdropIsActive === "cover all"
     ) {
       displayDialogBox = false;
-      backdropIsActiv = false;
+      backdropIsActiv = "false";
     }
 
     this.setState(({ dialogBoxData, backdropIsActive, ...restTop }) => ({
@@ -260,21 +260,19 @@ export default class Agenda extends React.Component {
             >
               {this.state.backdropIsActive === "cover all" ? (
                 <BackdropFilter
-                  dailyEventsBackdropDisplayHandler={() =>
-                    this.dailyEventsBackdropDisplayHandler("false")
+                  backdropDisplayHandler={() =>
+                    this.backdropDisplayHandler("false")
                   }
                 />
               ) : null}
               <TimeTables
-                dailyEventsBackdropDisplayHandler={() =>
-                  this.dailyEventsBackdropDisplayHandler(day)
-                }
+                backdropDisplayHandler={() => this.backdropDisplayHandler(day)}
                 tableOfAvailableHours={this.state.arrayOfDailyHoursTable}
               />
               {this.state.backdropIsActive === day ? (
                 <BackdropFilter
-                  dailyEventsBackdropDisplayHandler={() =>
-                    this.dailyEventsBackdropDisplayHandler("false")
+                  backdropDisplayHandler={() =>
+                    this.backdropDisplayHandler("false")
                   }
                 >
                   <Button
