@@ -6,8 +6,14 @@ export default function EmptyTables(props) {
   // column that displays the hours
   let renderSingleHour;
   if (props.style) {
+    let style = {
+      boxShadow: "none",
+      borderRadius: "0"
+    };
+    Object.assign(props.style, style);
     renderSingleHour = true;
   }
+
   return (
     <div onClick={props.backdropDisplayHandler}>
       {props.tableOfAvailableHours.map(singleHour => {
