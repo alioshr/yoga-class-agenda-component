@@ -1,5 +1,5 @@
 import React from "react";
-import classes from "./EventDialogBox.module.css";
+import "./EventDialogBox.css";
 
 export default function EventDialogBox(props) {
   //taking in consideration a global consence that 1px = 1min
@@ -20,7 +20,6 @@ export default function EventDialogBox(props) {
   eventDialogBoxPosition.width =
     percentCalc(61, totalContainerWidth) - 90 + "px";
   eventDialogBoxPosition.height = percentCalc(50, totalTableHeight) + "px";
-
   if (new Date(props.currentDate).getDay() > 3) {
     delete eventDialogBoxPosition.left;
     eventDialogBoxPosition.right = 0 + "px";
@@ -47,7 +46,7 @@ export default function EventDialogBox(props) {
   }
 
   return (
-    <div style={eventDialogBoxPosition} className={classes.DialogBoxContaner}>
+    <div style={eventDialogBoxPosition} className="DialogBoxContaner">
       {props.children}
     </div>
   );

@@ -305,6 +305,7 @@ export default class Agenda extends React.Component {
                 if (this.state.dialogBoxData.displayDialogBox === day) {
                   return (
                     <EventDialogBox
+                      today={day}
                       currentDate={this.state.dialogBoxData.displayDialogBox}
                       dimsFromLayoutWidth={
                         this.state.layoutWidthDimensions.width
