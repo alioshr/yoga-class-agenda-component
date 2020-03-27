@@ -21,12 +21,15 @@ export default function EventDialogBox(props) {
     percentCalc(61, totalContainerWidth) - 90 + "px";
   eventDialogBoxPosition.height = percentCalc(50, totalTableHeight) + "px";
   //if day is before Wednesday
-  if (new Date(props.currentDate).getDay() > 3) {
+  if (new Date(props.today).getDay() > 3) {
+    console.log("away from the right");
     delete eventDialogBoxPosition.left;
     eventDialogBoxPosition.right = 0 + "px";
   }
   //If day is equal or higher than Wednesday
-  if (new Date(props.currentDate).getDay() <= 3) {
+  if (new Date(props.today).getDay() <= 3) {
+    console.log("away from the left");
+    console.log("current day", new Date(props.today).getDay());
     delete eventDialogBoxPosition.right;
     eventDialogBoxPosition.left = 0 + "px";
   }
