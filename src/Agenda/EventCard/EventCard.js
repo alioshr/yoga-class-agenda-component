@@ -50,9 +50,10 @@ export default function ClassCard(props) {
     height: calculateCardWidthPositioning + "px"
   };
   //If I click on the event card I wanna make it stand out the backdrop
-  if (props.zIndexIFClicked === props.currDay) {
-    Object.assign(cardPosition, { zIndex: "99" });
-  }
+  props.zIndexIFClicked === props.currDay
+    ? Object.assign(cardPosition, { zIndex: "100" })
+    : Object.assign(cardPosition, { zIndex: "97" });
+
   return (
     <div
       onClick={() =>

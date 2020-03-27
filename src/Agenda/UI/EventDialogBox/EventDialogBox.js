@@ -53,7 +53,7 @@ export default function EventDialogBox(props) {
         let animation = {
           transition: "z-index .5s ease-out, opacity .5s ease-out",
           opacity: state === "exited" ? 0 : 1,
-          zIndex: state === "exited" ? -1000 : 99
+          zIndex: state === "exited" ? 96 : 100
         };
 
         return (
