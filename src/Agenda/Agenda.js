@@ -183,8 +183,11 @@ export default class Agenda extends React.Component {
   dailyEventsBackdropDisplayHandler(day) {
     if (day) {
       this.setState(
-        ({ backdropIsActive, ...restTop }) => ({
+        ({ backdropIsActive, dialogBoxData, ...restTop }) => ({
           backdropIsActive: day,
+          dialogBoxData: {
+            displayDialogBox: false
+          },
           ...restTop
         }),
         () => console.log(this.state.backdropIsActive)
@@ -198,24 +201,33 @@ export default class Agenda extends React.Component {
     heigthPositionFromClassCard
   ) => {
     let displayDialogBox;
-    if (this.state.dialogBoxData.displayDialogBox !== day) {
+    let backdropIsActiv;
+
+    if (
+      this.state.dialogBoxData.displayDialogBox !== day &&
+      this.state.backdropIsActive === false
+    ) {
       displayDialogBox = day;
+      backdropIsActiv = "cover all";
     }
-    if (this.state.dialogBoxData.displayDialogBox === day) {
+
+    if (
+      this.state.dialogBoxData.displayDialogBox === day &&
+      this.state.backdropIsActive === "cover all"
+    ) {
       displayDialogBox = false;
+      backdropIsActiv = false;
     }
-    this.setState(
-      ({ dialogBoxData, backdropIsActive, ...restTop }) => ({
-        dialogBoxData: {
-          displayDialogBox: displayDialogBox,
-          topPositionFromClassCard: topPositionFromClassCard,
-          heigthPositionFromClassCard: heigthPositionFromClassCard
-        },
-        backdropIsActive: "cover all",
-        ...restTop
-      }),
-      () => console.log(this.state.backdropIsActive)
-    );
+
+    this.setState(({ dialogBoxData, backdropIsActive, ...restTop }) => ({
+      dialogBoxData: {
+        displayDialogBox: displayDialogBox,
+        topPositionFromClassCard: topPositionFromClassCard,
+        heigthPositionFromClassCard: heigthPositionFromClassCard
+      },
+      backdropIsActive: backdropIsActiv,
+      ...restTop
+    }));
   };
 
   callbackContainerDimensions = container => {
@@ -242,16 +254,8 @@ export default class Agenda extends React.Component {
           />
         </SideTab>
         {this.state.currentWeek.map(day => {
-          let todayStyle;
-          if (
-            new Date(day).getDate() === new Date().getDate() &&
-            new Date(day).getMonth() === new Date().getMonth()
-          ) {
-            todayStyle = { backgroundColor: "#f56157", color: "white" };
-          }
           return (
             <DayCard
-              styleToday={todayStyle}
               key={day}
               today={day}
               newDatesToVerboseHandler={this.newDatesToVerboseHandler}
@@ -285,6 +289,9 @@ export default class Agenda extends React.Component {
                 if (cl.classDate === day) {
                   return (
                     <EventCard
+                      zIndexIFClicked={
+                        this.state.dialogBoxData.displayDialogBox
+                      }
                       currDay={day}
                       classDate={cl.classDate}
                       classTitle={cl.classTitle}

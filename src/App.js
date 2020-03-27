@@ -32,7 +32,7 @@ export default class App extends React.Component {
         classDate: 1585364400000,
         dayOfWeek: "Wednesday",
         classTime: { hour: 13, minutes: 0 },
-        duration: "60min",
+        duration: "90min",
         classTitle: "Super Yoga",
         instructor: "Kasturi Manjari",
         location: "Cascais, PT",

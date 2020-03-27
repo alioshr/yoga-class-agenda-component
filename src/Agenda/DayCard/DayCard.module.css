@@ -1,6 +1,18 @@
 .DayCard {
   width: 100%;
   min-width: 12%;
+  -webkit-transition: all 1s ease;
+  -moz-transition: all 1s ease;
+  -o-transition: all 1s ease;
+  -ms-transition: all 1s ease;
+  transition: all 1s ease;
+}
+
+.DayCard:hover {
+  min-width: 15%;
+  background-color: #f8f8f8;
+  -webkit-transition: background-color 1s ease-out, min-width 1s ease-out;
+  transition: background-color 1s ease-out, min-width 1s ease-out;
 }
 
 .DayHeader {
@@ -12,7 +24,7 @@
   position: sticky;
   top: 40px;
   background-color: white;
-  z-index: 99;
+  z-index: 100;
 }
 
 .DayOfTheWeek {
@@ -29,11 +41,4 @@
 
 .ChildInnerTable {
   position: relative;
-}
-
-.ChildInnerTable:hover {
-  -moz-box-shadow: inset 0 0 10px #f56157;
-  -webkit-box-shadow: inset 0 0 10px #f56157;
-  box-shadow: inset 0 0 10px #f56157;
-  border-radius: 9px;
 }
