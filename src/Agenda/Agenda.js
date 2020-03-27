@@ -182,16 +182,13 @@ export default class Agenda extends React.Component {
   //by clicking inside a event day card activates the backdrop for that day so I can edit the events or ad new ones
   dailyEventsBackdropDisplayHandler(day) {
     if (day) {
-      this.setState(
-        ({ backdropIsActive, dialogBoxData, ...restTop }) => ({
-          backdropIsActive: day,
-          dialogBoxData: {
-            displayDialogBox: false
-          },
-          ...restTop
-        }),
-        () => console.log(this.state.backdropIsActive)
-      );
+      this.setState(({ backdropIsActive, dialogBoxData, ...restTop }) => ({
+        backdropIsActive: day,
+        dialogBoxData: {
+          displayDialogBox: false
+        },
+        ...restTop
+      }));
     }
   }
 
