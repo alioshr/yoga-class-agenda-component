@@ -202,7 +202,7 @@ export default class Agenda extends React.Component {
 
     if (
       this.state.dialogBoxData.displayDialogBox !== day &&
-      this.state.backdropIsActive === false
+      this.state.backdropIsActive !== "cover all"
     ) {
       displayDialogBox = day;
       backdropIsActiv = "cover all";
@@ -237,6 +237,7 @@ export default class Agenda extends React.Component {
   };
 
   render() {
+    console.log("backdrop auth", this.state.backdropIsActive);
     return (
       <Layout
         callbackContainerDimensions={this.callbackContainerDimensions}
