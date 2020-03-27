@@ -1,7 +1,7 @@
 .DialogBoxContaner {
   position: absolute;
-  background-color: lightblue;
+  background-color: white;
+  border: 1px solid black;
   height: 300px;
   border-radius: 10px;
-  z-index: 99;
 }

@@ -277,7 +277,7 @@ export default class Agenda extends React.Component {
                 >
                   <Button
                     ButtonText="Create a New Class"
-                    buttonClicked={() => this.displayDialogBoxHandler(day)}
+                    buttonClicked={() => this.displayDialogBoxHandler(day)} //will open a dialog box in the future
                   />
                 </BackdropFilter>
               ) : null}
@@ -302,30 +302,24 @@ export default class Agenda extends React.Component {
                     />
                   );
                 }
-                if (this.state.dialogBoxData.displayDialogBox === day) {
-                  return (
-                    <EventDialogBox
-                      today={day}
-                      currentDate={this.state.dialogBoxData.displayDialogBox}
-                      dimsFromLayoutWidth={
-                        this.state.layoutWidthDimensions.width
-                      }
-                      key={cl.id}
-                      calculateCardTopPositioning={
-                        this.state.dialogBoxData.topPositionFromClassCard
-                      }
-                      calculateCardHeigthPositioning={
-                        this.state.dialogBoxData.heigthPositionFromClassCard
-                      }
-                      classInitialAvailableHour={
-                        this.props.agendaInitialAvailableHour
-                      }
-                      classLastAvailableHour={
-                        this.props.agendaLastAvailableHour
-                      }
-                    />
-                  );
-                }
+                return (
+                  <EventDialogBox
+                    today={day}
+                    currentDate={this.state.dialogBoxData.displayDialogBox}
+                    dimsFromLayoutWidth={this.state.layoutWidthDimensions.width}
+                    key={cl.id}
+                    calculateCardTopPositioning={
+                      this.state.dialogBoxData.topPositionFromClassCard
+                    }
+                    calculateCardHeigthPositioning={
+                      this.state.dialogBoxData.heigthPositionFromClassCard
+                    }
+                    classInitialAvailableHour={
+                      this.props.agendaInitialAvailableHour
+                    }
+                    classLastAvailableHour={this.props.agendaLastAvailableHour}
+                  />
+                );
               })}
             </DayCard>
           );
