@@ -22,19 +22,17 @@ export default function EventDialogBox(props) {
   eventDialogBoxPosition.height = percentCalc(50, totalTableHeight) + "px";
   //if day is before Wednesday
   if (new Date(props.today).getDay() > 3) {
-    console.log("away from the right");
     delete eventDialogBoxPosition.left;
     eventDialogBoxPosition.right = 0 + "px";
   }
   //If day is equal or higher than Wednesday
   if (new Date(props.today).getDay() <= 3) {
-    console.log("away from the left");
-    console.log("current day", new Date(props.today).getDay());
     delete eventDialogBoxPosition.right;
     eventDialogBoxPosition.left = 0 + "px";
   }
   //If the day card is displayed below half of the calendar
   if (props.calculateCardTopPositioning > percentCalc(50, totalTableHeight)) {
+    delete eventDialogBoxPosition.top;
     eventDialogBoxPosition.bottom =
       totalTableHeight -
       (props.calculateCardTopPositioning -
@@ -44,21 +42,55 @@ export default function EventDialogBox(props) {
   }
   //If the day card is displayed above half of the calendar
   if (props.calculateCardTopPositioning < percentCalc(50, totalTableHeight)) {
+    delete eventDialogBoxPosition.bottom;
     eventDialogBoxPosition.top =
       props.calculateCardTopPositioning +
       parseInt(props.calculateCardHeigthPositioning, 10) +
       5 +
       "px";
+    console.log(
+      "not a number",
+      parseInt(props.calculateCardHeigthPositioning, 10)
+    );
   }
+  console.log(eventDialogBoxPosition);
   return (
     <Transition timeout={500} in={props.today === props.currentDate}>
       {state => {
+        console.log(state);
+        eventDialogBoxPosition.zIndex =
+          state === "entering"
+            ? 101
+            : state === "entered"
+            ? 101
+            : state === "exiting"
+            ? 96
+            : state === "exited"
+            ? 0
+            : 0;
+
         let animation = {
           transition: "z-index .5s ease-out, opacity .5s ease-out",
-          opacity: state === "exited" ? 0 : 1,
-          zIndex: state === "exited" ? 96 : 100
+          opacity:
+            state === "entering"
+              ? 1
+              : state === "entered"
+              ? 1
+              : state === "exited"
+              ? 0
+              : 0,
+          zIndex:
+            state === "entering"
+              ? 101
+              : state === "entered"
+              ? 101
+              : state === "exiting"
+              ? 96
+              : state === "exited"
+              ? -1000
+              : 100
         };
-
+        console.log("inside transition", eventDialogBoxPosition);
         return (
           <div
             style={Object.assign(animation, eventDialogBoxPosition)}

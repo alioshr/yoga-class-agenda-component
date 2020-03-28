@@ -4,6 +4,7 @@
   border-top: 1px solid #cccccc;
   color: white;
   text-align: center;
+  z-index: 1;
 }
 
 .EmptyTable:hover {
