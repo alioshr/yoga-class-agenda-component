@@ -1,15 +1,10 @@
 import React from "react";
-import DayCard from "./DayCard/DayCard";
-import TimeTables from "./TimeTables/TimeTables";
-import EventCard from "./EventCard/EventCard";
-import SideTab from "./SideTab/SideTab";
 import Layout from "./UI/Layout/Layout";
-import BackdropFilter from "./UI/BackdropFilter/BackdropFilter";
-import Button from "./UI/Button/Button";
-import EventDialogBox from "./UI/EventDialogBox/EventDialogBox";
+import WeekMode from "./UI/ViewMode/WeekMode/WeekMode";
 
 export default class Agenda extends React.Component {
   state = {
+    appViewMode: "weekly",
     currentWeek: [],
     arrayOfDailyHoursTable: [],
     backdropIsActive: false,
@@ -40,14 +35,17 @@ export default class Agenda extends React.Component {
 
     //I call this set state to spread the table of empty tabs for each existing hour
     this.setState({
-      arrayOfHourTable: this.arrayOfHourTable(
+      arrayOfHourTable: this.arrayOfTableRows(
         this.props.agendaInitialAvailableHour,
         this.props.agendaLastAvailableHour
       )
     });
   }
+
+
+
   //the function below spreads the table of existing hours for <EmptyTables/>
-  arrayOfHourTable = (startingHour, endingHour) => {
+  arrayOfTableRows = (startingHour, endingHour) => {
     let arrayOfDailyHoursTable = [startingHour];
     for (let i = startingHour; i < endingHour; i++) {
       arrayOfDailyHoursTable.push(
@@ -191,7 +189,7 @@ export default class Agenda extends React.Component {
       }));
     }
   }
-  //ligic to run the dialog box. This box will handle create class, edit class & view full class card
+  //logic to run the dialog box. This box will handle create class, edit class & view full class card
   displayDialogBoxHandler = (
     day,
     topPositionFromClassCard,
@@ -200,22 +198,14 @@ export default class Agenda extends React.Component {
     let displayDialogBox;
     let backdropIsActiv;
 
-    if (
-      this.state.dialogBoxData.displayDialogBox !== day &&
-      this.state.backdropIsActive !== "cover all"
-    ) {
+    if (this.state.dialogBoxData.displayDialogBox !== day && this.state.backdropIsActive !== "cover all") {
       displayDialogBox = day;
       backdropIsActiv = "cover all";
     }
-
-    if (
-      this.state.dialogBoxData.displayDialogBox === day &&
-      this.state.backdropIsActive === "cover all"
-    ) {
+    if (this.state.dialogBoxData.displayDialogBox === day && this.state.backdropIsActive === "cover all") {
       displayDialogBox = false;
       backdropIsActiv = "false";
     }
-
     this.setState(({ dialogBoxData, backdropIsActive, ...restTop }) => ({
       dialogBoxData: {
         displayDialogBox: displayDialogBox,
@@ -244,87 +234,20 @@ export default class Agenda extends React.Component {
         newDatesToVerboseHandler={this.newDatesToVerboseHandler}
         currentWeek={this.state.currentWeek}
       >
-        <SideTab>
-          <TimeTables
-            style={{ color: "black", border: "none" }}
-            tableOfAvailableHours={this.state.arrayOfDailyHoursTable}
-          />
-        </SideTab>
-        {this.state.currentWeek.map(day => {
-          return (
-            <DayCard
-              backdropIsActive={this.state.backdropIsActive}
-              key={day}
-              today={day}
-              newDatesToVerboseHandler={this.newDatesToVerboseHandler}
-            >
-              {this.state.backdropIsActive === "cover all" ? (
-                <BackdropFilter
-                  backdropDisplayHandler={() =>
-                    this.backdropDisplayHandler("false")
-                  }
-                />
-              ) : null}
-              <TimeTables
-                backdropDisplayHandler={() => this.backdropDisplayHandler(day)}
-                tableOfAvailableHours={this.state.arrayOfDailyHoursTable}
-              />
-              {this.state.backdropIsActive === day ? (
-                <BackdropFilter
-                  backdropDisplayHandler={() =>
-                    this.backdropDisplayHandler("false")
-                  }
-                >
-                  <Button
-                    ButtonText="Create a New Class"
-                    buttonClicked={() => this.displayDialogBoxHandler(day)} //will open a dialog box in the future
-                  />
-                </BackdropFilter>
-              ) : null}
-              {this.props.dataToBeRendered.map(cl => {
-                if (cl.classDate === day) {
-                  return (
-                    <EventCard
-                      zIndexIFClicked={
-                        this.state.dialogBoxData.displayDialogBox
-                      }
-                      currDay={day}
-                      classDate={cl.classDate}
-                      classTitle={cl.classTitle}
-                      classLocation={cl.location}
-                      classDuration={cl.duration}
-                      classTime={cl.classTime}
-                      classInitialAvailableHour={
-                        this.props.agendaInitialAvailableHour
-                      }
-                      key={cl.id}
-                      displayFullEventCard={this.displayDialogBoxHandler}
-                    />
-                  );
-                }
-                return (
-                  <EventDialogBox
-                    today={day}
-                    currentDate={this.state.dialogBoxData.displayDialogBox}
-                    dimsFromLayoutWidth={this.state.layoutWidthDimensions.width}
-                    key={cl.id}
-                    calculateCardTopPositioning={
-                      this.state.dialogBoxData.topPositionFromClassCard
-                    }
-                    calculateCardHeigthPositioning={
-                      this.state.dialogBoxData.heigthPositionFromClassCard
-                    }
-                    classInitialAvailableHour={
-                      this.props.agendaInitialAvailableHour
-                    }
-                    classLastAvailableHour={this.props.agendaLastAvailableHour}
-                  />
-                );
-              })}
-            </DayCard>
-          );
-        })}
-        <SideTab />
+        {/*NEXT STEP IS THE CALENDAR VIEW - MUST WORK ON INNER MODE = EXPAND DATE ONCLICK / NOT EXPAND & TWO WAY BINDING*/}
+        <WeekMode
+            arrayOfDailyHoursTable={this.state.arrayOfDailyHoursTable}
+            currentWeek={this.state.currentWeek}
+            backdropIsActive={this.state.backdropIsActive}
+            newDatesToVerboseHandler={this.newDatesToVerboseHandler}
+            displayDialogBoxHandler={this.displayDialogBoxHandler}
+            backdropDisplayHandler={(data) => this.backdropDisplayHandler(data)}
+            dialogBoxData={this.state.dialogBoxData}
+            agendaInitialAvailableHour={this.props.agendaInitialAvailableHour}
+            layoutWidthDimensions={this.state.layoutWidthDimensions}
+            agendaLastAvailableHour={this.props.agendaLastAvailableHour}
+            dataToBeRendered={this.props.dataToBeRendered}
+        />
       </Layout>
     );
   }

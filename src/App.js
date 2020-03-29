@@ -56,8 +56,8 @@ export default class App extends React.Component {
       <div className="App">
         <Agenda
           dataToBeRendered={this.state.classes}
-          agendaInitialAvailableHour={6}
-          agendaLastAvailableHour={22}
+          agendaInitialAvailableHour={6}//or starting row in case of month view
+          agendaLastAvailableHour={22}//or starting row in case of month view
         />
       </div>
     );

@@ -8,7 +8,6 @@
 }
 
 .MonthDisplay {
-  position: relative;
   font-size: 40px;
   color: #443a3c;
   position: sticky;
@@ -28,6 +27,7 @@
   border-right: 30px solid #04287f;
   border-bottom: 15px solid #f6f6f6;
   z-index: 1000;
+  cursor: pointer;
 }
 
 .RightArrow {
@@ -41,4 +41,5 @@
   border-left: 30px solid #04287f;
   border-bottom: 15px solid #f6f6f6;
   z-index: 1000;
+  cursor: pointer;
 }

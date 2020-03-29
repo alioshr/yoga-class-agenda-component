@@ -1,5 +1,6 @@
 import React from "react";
 import classes from "./Layout.module.css";
+import ViewMode from "../ViewMode/ViewMode";
 
 export default class Layout extends React.Component {
   state = { width: 0, height: 0 };
@@ -23,6 +24,7 @@ export default class Layout extends React.Component {
     return (
       <div className={classes.OutStructure}>
         {/*here is display the top title w/ the curr month*/}
+        <ViewMode/>
         <div className={classes.MonthDisplay}>
           <div
             className={classes.LeftArrow}

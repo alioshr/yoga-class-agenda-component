@@ -1,0 +1,21 @@
+.ViewModeContainer {
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    border-radius: 5px;
+
+}
+
+.ViewModeItem {
+    padding: 5px;
+    font-size: 10px;
+    width: 50px;
+    background-color: #f8f8f8;
+    color: #443a3c;
+    font-weight: bold;
+    cursor: pointer;
+}
+
+.ViewModeItem::selection {
+    background-color: #f56157;
+}
