@@ -64,7 +64,8 @@ export default function WeekMode(props) {
                                 );
                             }
                             return (
-                                <Transition timeout={500} in={day === props.dialogBoxData.displayDialogBox}>
+                                /*must check this in the future - should not render all items but just one card at a time*/
+                                <Transition key={cl.id} timeout={500} in={day === props.dialogBoxData.displayDialogBox}>
                                     {state => {
                                         let animation = {
                                             transition: "z-index .5s ease-out, opacity .5s ease-out",
