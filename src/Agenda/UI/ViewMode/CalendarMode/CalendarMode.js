@@ -13,7 +13,7 @@ export default function CalendarMode(props) {
                         {props.currentMonth.map((date, index) => {
                             let nonMonthDates = {};
                                 if(new Date(date).getDay() === new Date(day).getDay()) {
-                                    if (index > 24 && new Date(date).getDate() < 20 || index < 7 && new Date(date).getDate() > 15){
+                                    if ((index > 24 && new Date(date).getDate() < 20) || (index < 7 && new Date(date).getDate() > 15)){
                                         nonMonthDates = {
                                             color: 'grey'
                                         }

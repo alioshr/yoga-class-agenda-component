@@ -8,6 +8,9 @@ export default class Agenda extends React.Component {
     appViewMode: "",
     currentWeek: [],
     currentMonth: [],
+    monthGetter: new Date().getMonth(),
+    yearGetter: new Date().getFullYear(),
+    dayManipulation: new Date(),
     arrayOfDailyHoursTable: [],
     backdropIsActive: false,
 
@@ -22,7 +25,6 @@ export default class Agenda extends React.Component {
   };
 
   componentDidMount() {
-
     //here I set oneDay to get one day in ms & today to use as ref for dates
     const oneDay = 86400000;
     const today = new Date();
@@ -37,21 +39,7 @@ export default class Agenda extends React.Component {
     }
     this.setState({ currentWeek });
 
-    //logic for month view
-    let currentMonth = [today.setHours(0,0,0,0)];
-    for(let i = today.getDate(); i > 1; i--){
-      currentMonth.unshift(Math.min.apply(null,currentMonth) - oneDay)
-    }
-    for (let i = today.getDate(); i < new Date(new Date().getFullYear(),new Date().getMonth() + 1, 0).getDate(); i++ ){
-      currentMonth.push(Math.max.apply(null,currentMonth) + oneDay)
-    }
-    for(let i = new Date(Math.min(...currentMonth)).getDay(); i > 0; i-- ) {
-      currentMonth.unshift(Math.min.apply(null, currentMonth) - oneDay)
-    }
-    for(let i = new Date(Math.max(...currentMonth)).getDay(); i < 6; i++ ) {
-      currentMonth.push(Math.max.apply(null, currentMonth) + oneDay)
-    }
-    this.setState({currentMonth});
+    this.calendarLogicHandler();
 
     //I call this set state to spread the table of empty tabs for each existing hour
     this.setState({
@@ -61,8 +49,6 @@ export default class Agenda extends React.Component {
       )
     });
   }
-
-
 
   //the function below spreads the table of existing hours for <EmptyTables/>
   arrayOfTableRows = (startingHour, endingHour) => {
@@ -75,60 +61,89 @@ export default class Agenda extends React.Component {
     this.setState({ arrayOfDailyHoursTable });
   };
 
-  //this functions navigates in between weeks
-  appNavigationHandler = modal => {
+  calendarLogicHandler = () => {
+    const oneDay = 86400000;
+    const lastDayOfTheMonth = new Date(this.state.yearGetter, this.state.monthGetter + 1, 0).getDate();
+    let currentMonth = [new Date(this.state.yearGetter, this.state.monthGetter, 1).valueOf()]; //starts on month day 1
+    for(let i = 1; i < lastDayOfTheMonth; i++) { //push the entire month
+      currentMonth.push(Math.max.apply(null, currentMonth) + oneDay)
+    }
+    //localize the first date of the month dates array and check what day of the week it is
+    //spread the days of the week, which are the remaining days of prev month to fill calendar first week
+    for(let i = new Date(Math.min(...currentMonth)).getDay(); i > 0; i-- ) {
+      currentMonth.unshift(Math.min.apply(null, currentMonth) - oneDay)
+    }
+    //spread the days of the week, which are the remaining days of prev month to fill calendar last week
+    for(let i = new Date(Math.max(...currentMonth)).getDay(); i < 6; i++ ) {
+      currentMonth.push(Math.max.apply(null, currentMonth) + oneDay)
+    }
+    this.setState({currentMonth})
+  };
+
+  weekAgendaNavigationHandler = modal => {
     const oneDay = 86400000;
     if (modal === "increment") {
-      if(this.state.appViewMode === "WeekMode" || this.props.defaultMode === "WeekMode") {
-        let currentWeek = [Math.max(...this.state.currentWeek) + oneDay];
-        for (let i = new Date(...currentWeek).getDay(); i < 6; i++) {
-          currentWeek.push(Math.max.apply(null, currentWeek) + oneDay);
-        }
-        this.setState({currentWeek});
+      let currentWeek = [Math.max(...this.state.currentWeek) + oneDay];
+      for (let i = new Date(...currentWeek).getDay(); i < 6; i++) {
+        currentWeek.push(Math.max.apply(null, currentWeek) + oneDay);
       }
-
-      if(this.state.appViewMode === "CalendarMode" || this.props.defaultMode === "CalendarMode") {
-        let currentMonth = [];
-        this.state.currentMonth.filter((lastDayOfTheMonth, index) => {
-          //if the last day of the calendar is within the current month displayed and it's on the last day of the week
-          if (index > 28 && new Date(lastDayOfTheMonth).getDay() === 6 && new Date(lastDayOfTheMonth).getDate() > 26) {
-            //init an array with the last day of the calendar + one day so I start w/ the first day of the next calendar
-            currentMonth = [lastDayOfTheMonth + oneDay];
-            //push the whole calendar
-            for (let i = 0; i < 35; i++) {
-              currentMonth.push(Math.max.apply(null, currentMonth) + oneDay)
-            }
-          }
-          //if the last day of the calendar is already within the next month
-          if (index === 34 && new Date(lastDayOfTheMonth).getDate() < 27) {
-            //init an array with the last the of the month
-            currentMonth = [lastDayOfTheMonth];
-            //spread the last week of the current month
-            for (let i = new Date(lastDayOfTheMonth).getDay(); i > 0; i--) {
-              currentMonth.unshift(Math.min.apply(null, currentMonth) - oneDay)
-            }
-            //push the other 4 weeks to build the next month's calendar
-            for (let i = 0; i < 28; i++) {
-              currentMonth.push(Math.max.apply(null, currentMonth) + oneDay)
-            }
-          }
-        });
-        this.setState({currentMonth})
-      }
+      this.setState({currentWeek});
     }
     if (modal === "decrement") {
       let currentWeek = [Math.min(...this.state.currentWeek) - oneDay];
       for (let i = new Date(...currentWeek).getDay(); i > 0; i--) {
         currentWeek.unshift(Math.min.apply(null, currentWeek) - oneDay);
       }
-      if (
-          !this.state.currentWeek.includes(
-              new Date().setHours(0, 0, 0, 0).valueOf()
-          )
-      ) {
+      if (!this.state.currentWeek.includes(new Date().setHours(0, 0, 0, 0).valueOf())) {
         this.setState({currentWeek});
       }
     }
+  }
+
+  calendarNavigationHandler = modal => {
+ if(modal === "increment") {
+  if(this.state.monthGetter < 11) { //just add months, before changing the year
+    this.setState(({monthGetter, ...restTop}) => ({
+      monthGetter: monthGetter + 1,
+      ...restTop
+    }), () => this.calendarLogicHandler());
+  }
+
+  if(this.state.monthGetter >= 11) {//if the month is december it resets the month and increments the year
+    this.setState(({yearGetter, monthGetter, ...restTop}) => ({
+      yearGetter: yearGetter + 1,
+      monthGetter: 0,
+      ...restTop
+    }), () => this.calendarLogicHandler())
+  }
+}
+ if (modal === "decrement") {
+   if(this.state.monthGetter > 0) { //just add months, before changing the year
+     this.setState(({monthGetter, ...restTop}) => ({
+       monthGetter: monthGetter - 1,
+       ...restTop
+     }), () => this.calendarLogicHandler());
+   }
+
+   if(this.state.monthGetter <= 0) {//if the month is december it resets the month and increments the year
+     this.setState(({yearGetter, monthGetter, ...restTop}) => ({
+       yearGetter: yearGetter - 1,
+       monthGetter: 11,
+       ...restTop
+     }), () => this.calendarLogicHandler())
+   }
+ }
+  };
+
+  //this functions navigates in between weeks
+  appNavigationHandler = modal => {
+      if(this.state.appViewMode === "WeekMode" || this.props.defaultMode === "WeekMode") {
+        this.weekAgendaNavigationHandler(modal)
+      }
+      this.weekAgendaNavigationHandler(modal);
+      if(this.state.appViewMode === "CalendarMode" || this.props.defaultMode === "CalendarMode") {
+        this.calendarNavigationHandler(modal)
+      }
   };
 
   //this function does the verbose work for my days to appear nicely
@@ -213,7 +228,7 @@ export default class Agenda extends React.Component {
         renderMonth = "November";
         break;
 
-      case 12:
+      case 11:
         renderMonth = "December";
         break;
       default:
@@ -347,7 +362,8 @@ export default class Agenda extends React.Component {
             appNavigationHandler={this.appNavigationHandler}
             newDatesToVerboseHandler={this.newDatesToVerboseHandler}
             currentWeek={this.state.currentWeek}
-            currentMonth={this.state.currentMonth}
+            currentMonth={this.state.monthGetter}
+            currentYear={this.state.yearGetter}
         >
           {viewMode}
         </Layout>

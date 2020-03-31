@@ -22,7 +22,7 @@ export default class Layout extends React.Component {
 
     render() {
         let renderMonth = null;
-        switch (this.props.defaultMode || this.props.appViewMode) {
+        switch (this.props.appViewMode) {
             case("WeekMode") :
                 renderMonth = (
                     this.props.newDatesToVerboseHandler(
@@ -33,10 +33,28 @@ export default class Layout extends React.Component {
             case ("CalendarMode") :
                 renderMonth = (
                     this.props.newDatesToVerboseHandler(
-                        new Date(this.props.currentMonth[15]),
+                        new Date(this.props.currentYear,this.props.currentMonth,1),
                         "renderMonth")
-                )
-            }
+                );
+                break;
+            default:
+                switch (this.props.defaultMode) {
+                    case("WeekMode") :
+                        renderMonth = (
+                            this.props.newDatesToVerboseHandler(
+                                new Date(Math.min(...this.props.currentWeek)),
+                                "renderMonth")
+                        );
+                        break;
+                    case ("CalendarMode") :
+                        renderMonth = (
+                            this.props.newDatesToVerboseHandler(
+                                new Date(this.props.currentYear,this.props.currentMonth,1),
+                                "renderMonth")
+                        );
+                        break;
+                }
+        }
 
         return (
             <div className={classes.OutStructure}>
