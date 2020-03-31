@@ -10,7 +10,6 @@ export default class Agenda extends React.Component {
     currentMonth: [],
     monthGetter: new Date().getMonth(),
     yearGetter: new Date().getFullYear(),
-    dayManipulation: new Date(),
     arrayOfDailyHoursTable: [],
     backdropIsActive: false,
 
@@ -27,13 +26,7 @@ export default class Agenda extends React.Component {
   componentDidMount() {
     this.weekAgendaLogicHandler();
     this.calendarLogicHandler();
-    //I call this set state to spread the table of empty tabs for each existing hour
-    this.setState({
-      arrayOfHourTable: this.arrayOfTableRows(
-          this.props.agendaInitialAvailableHour,
-          this.props.agendaLastAvailableHour
-      )
-    });
+    this.arrayOfTableRows(this.props.agendaInitialAvailableHour, this.props.agendaLastAvailableHour);
   }
 
   //the function below spreads the table of existing hours for <EmptyTables/>
@@ -51,7 +44,6 @@ export default class Agenda extends React.Component {
     //here I set oneDay to get one day in ms & today to use as ref for dates
     const oneDay = 86400000;
     const today = new Date();
-
     //logic that fills the <Day> cards in the agenda
     let currentWeek = [today.setHours(0, 0, 0, 0)];
     for (let i = today.getDay(); i > 0; i--) {
@@ -244,8 +236,7 @@ export default class Agenda extends React.Component {
     }
   };
   //by clicking inside a event day card activates the backdrop for that day so I can edit the events or ad new ones
-  backdropDisplayHandler(day) {
-    if (day) {
+  backdropDisplayHandler = (day) => {
       this.setState(({ backdropIsActive, dialogBoxData, ...restTop }) => ({
         backdropIsActive: day,
         dialogBoxData: {
@@ -253,8 +244,7 @@ export default class Agenda extends React.Component {
         },
         ...restTop
       }));
-    }
-  }
+  };
   //logic to run the dialog box. This box will handle create class, edit class & view full class card
   displayDialogBoxHandler = (
       day,

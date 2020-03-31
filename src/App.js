@@ -29,7 +29,7 @@ export default class App extends React.Component {
       },
       {
         id: 2,
-        classDate: 1585364400000,
+        classDate: 1585710000000,
         dayOfWeek: "Wednesday",
         classTime: { hour: 13, minutes: 0 },
         duration: "90min",
