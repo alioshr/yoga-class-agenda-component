@@ -7,22 +7,19 @@ export default function CalendarMode(props) {
         <div style={{display: "flex", flexDirection: "row", width: "100%"}}>
             {props.currentWeek.map(day =>
                 <MonthDayCard
+                    key={day}
                     newDatesToVerboseHandler={props.newDatesToVerboseHandler}
                     today={day}
                 >
-                        {props.currentMonth.map((date, index) => {
-                            let nonMonthDates = {};
-                                if(new Date(date).getDay() === new Date(day).getDay()) {
-                                    if ((index > 24 && new Date(date).getDate() < 20) || (index < 7 && new Date(date).getDate() > 15)){
-                                        nonMonthDates = {
-                                            color: 'grey'
-                                        }
-                                    }
-                                    return  <DateCards today={date} nonMonthDates={nonMonthDates}/>
-
+                    {props.currentMonth
+                            .filter(date => new Date(date).getDay() === new Date(day).getDay())
+                            .map(date => {
+                                let nonMonthDates = {};
+                                if(new Date(date).getMonth() !== props.monthGetter) {
+                                    nonMonthDates = {color: 'grey'}
                                 }
-                            }
-                        )}
+                                return  <DateCards today={date} key={date} nonMonthDates={nonMonthDates}/>
+                            })}
                 </MonthDayCard>
             )}
         </div>

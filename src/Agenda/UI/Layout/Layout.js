@@ -53,6 +53,7 @@ export default class Layout extends React.Component {
                                 "renderMonth")
                         );
                         break;
+                    default : alert('there is something wrong here!')
                 }
         }
 

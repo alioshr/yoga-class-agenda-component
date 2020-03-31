@@ -25,22 +25,8 @@ export default class Agenda extends React.Component {
   };
 
   componentDidMount() {
-    //here I set oneDay to get one day in ms & today to use as ref for dates
-    const oneDay = 86400000;
-    const today = new Date();
-
-    //logic that fills the <Day> cards in the agenda
-    let currentWeek = [today.setHours(0, 0, 0, 0)];
-    for (let i = today.getDay(); i > 0; i--) {
-      currentWeek.unshift(Math.min.apply(null, currentWeek) - oneDay);
-    }
-    for (let i = today.getDay(); i < 6; i++) {
-      currentWeek.push(Math.max.apply(null, currentWeek) + oneDay);
-    }
-    this.setState({ currentWeek });
-
+    this.weekAgendaLogicHandler();
     this.calendarLogicHandler();
-
     //I call this set state to spread the table of empty tabs for each existing hour
     this.setState({
       arrayOfHourTable: this.arrayOfTableRows(
@@ -61,23 +47,20 @@ export default class Agenda extends React.Component {
     this.setState({ arrayOfDailyHoursTable });
   };
 
-  calendarLogicHandler = () => {
+  weekAgendaLogicHandler = () => {
+    //here I set oneDay to get one day in ms & today to use as ref for dates
     const oneDay = 86400000;
-    const lastDayOfTheMonth = new Date(this.state.yearGetter, this.state.monthGetter + 1, 0).getDate();
-    let currentMonth = [new Date(this.state.yearGetter, this.state.monthGetter, 1).valueOf()]; //starts on month day 1
-    for(let i = 1; i < lastDayOfTheMonth; i++) { //push the entire month
-      currentMonth.push(Math.max.apply(null, currentMonth) + oneDay)
+    const today = new Date();
+
+    //logic that fills the <Day> cards in the agenda
+    let currentWeek = [today.setHours(0, 0, 0, 0)];
+    for (let i = today.getDay(); i > 0; i--) {
+      currentWeek.unshift(Math.min.apply(null, currentWeek) - oneDay);
     }
-    //localize the first date of the month dates array and check what day of the week it is
-    //spread the days of the week, which are the remaining days of prev month to fill calendar first week
-    for(let i = new Date(Math.min(...currentMonth)).getDay(); i > 0; i-- ) {
-      currentMonth.unshift(Math.min.apply(null, currentMonth) - oneDay)
+    for (let i = today.getDay(); i < 6; i++) {
+      currentWeek.push(Math.max.apply(null, currentWeek) + oneDay);
     }
-    //spread the days of the week, which are the remaining days of prev month to fill calendar last week
-    for(let i = new Date(Math.max(...currentMonth)).getDay(); i < 6; i++ ) {
-      currentMonth.push(Math.max.apply(null, currentMonth) + oneDay)
-    }
-    this.setState({currentMonth})
+    this.setState({ currentWeek });
   };
 
   weekAgendaNavigationHandler = modal => {
@@ -98,7 +81,26 @@ export default class Agenda extends React.Component {
         this.setState({currentWeek});
       }
     }
-  }
+  };
+
+  calendarLogicHandler = () => {
+    const oneDay = 86400000;
+    const lastDayOfTheMonth = new Date(this.state.yearGetter, this.state.monthGetter + 1, 0).getDate();
+    let currentMonth = [new Date(this.state.yearGetter, this.state.monthGetter, 1).valueOf()]; //starts on month day 1
+    for(let i = 1; i < lastDayOfTheMonth; i++) { //push the entire month
+      currentMonth.push(Math.max.apply(null, currentMonth) + oneDay)
+    }
+    //localize the first date of the month dates array and check what day of the week it is
+    //spread the days of the week, which are the remaining days of prev month to fill calendar first week
+    for(let i = new Date(Math.min(...currentMonth)).getDay(); i > 0; i-- ) {
+      currentMonth.unshift(Math.min.apply(null, currentMonth) - oneDay)
+    }
+    //spread the days of the week, which are the remaining days of prev month to fill calendar last week
+    for(let i = new Date(Math.max(...currentMonth)).getDay(); i < 6; i++ ) {
+      currentMonth.push(Math.max.apply(null, currentMonth) + oneDay)
+    }
+    this.setState({currentMonth})
+  };
 
   calendarNavigationHandler = modal => {
  if(modal === "increment") {
@@ -140,7 +142,6 @@ export default class Agenda extends React.Component {
       if(this.state.appViewMode === "WeekMode" || this.props.defaultMode === "WeekMode") {
         this.weekAgendaNavigationHandler(modal)
       }
-      this.weekAgendaNavigationHandler(modal);
       if(this.state.appViewMode === "CalendarMode" || this.props.defaultMode === "CalendarMode") {
         this.calendarNavigationHandler(modal)
       }
@@ -297,59 +298,44 @@ export default class Agenda extends React.Component {
 
   render() {
     let viewMode = "";
+    const weekMode = (
+        <WeekMode
+            arrayOfDailyHoursTable={this.state.arrayOfDailyHoursTable}
+            currentWeek={this.state.currentWeek}
+            backdropIsActive={this.state.backdropIsActive}
+            newDatesToVerboseHandler={this.newDatesToVerboseHandler}
+            displayDialogBoxHandler={this.displayDialogBoxHandler}
+            backdropDisplayHandler={(data) => this.backdropDisplayHandler(data)}
+            dialogBoxData={this.state.dialogBoxData}
+            agendaInitialAvailableHour={this.props.agendaInitialAvailableHour}
+            layoutWidthDimensions={this.state.layoutWidthDimensions}
+            agendaLastAvailableHour={this.props.agendaLastAvailableHour}
+            dataToBeRendered={this.props.dataToBeRendered}
+        />
+    );
+    let calendarMode = (
+        <CalendarMode
+            monthGetter={this.state.monthGetter}
+            currentMonth={this.state.currentMonth}
+            currentWeek={this.state.currentWeek}
+            newDatesToVerboseHandler={this.newDatesToVerboseHandler}/>
+    )
     switch (this.state.appViewMode) {
       case('WeekMode') :
-        viewMode = (
-            <WeekMode
-                arrayOfDailyHoursTable={this.state.arrayOfDailyHoursTable}
-                currentWeek={this.state.currentWeek}
-                backdropIsActive={this.state.backdropIsActive}
-                newDatesToVerboseHandler={this.newDatesToVerboseHandler}
-                displayDialogBoxHandler={this.displayDialogBoxHandler}
-                backdropDisplayHandler={(data) => this.backdropDisplayHandler(data)}
-                dialogBoxData={this.state.dialogBoxData}
-                agendaInitialAvailableHour={this.props.agendaInitialAvailableHour}
-                layoutWidthDimensions={this.state.layoutWidthDimensions}
-                agendaLastAvailableHour={this.props.agendaLastAvailableHour}
-                dataToBeRendered={this.props.dataToBeRendered}
-            />
-        );
+        viewMode = weekMode;
         break;
       case('CalendarMode') :
-        viewMode = (
-            <CalendarMode
-                currentMonth={this.state.currentMonth}
-                currentWeek={this.state.currentWeek}
-                newDatesToVerboseHandler={this.newDatesToVerboseHandler}/>
-        );
+        viewMode = calendarMode;
         break;
       default :
         switch (this.props.defaultMode) {
           case("CalendarMode") :
-            viewMode = (
-                <CalendarMode
-                    currentMonth={this.state.currentMonth}
-                    currentWeek={this.state.currentWeek}
-                    newDatesToVerboseHandler={this.newDatesToVerboseHandler}/>
-            );
+            viewMode = calendarMode;
             break;
           case("WeekMode") :
-            viewMode = (
-                <WeekMode
-                    arrayOfDailyHoursTable={this.state.arrayOfDailyHoursTable}
-                    currentWeek={this.state.currentWeek}
-                    backdropIsActive={this.state.backdropIsActive}
-                    newDatesToVerboseHandler={this.newDatesToVerboseHandler}
-                    displayDialogBoxHandler={this.displayDialogBoxHandler}
-                    backdropDisplayHandler={(data) => this.backdropDisplayHandler(data)}
-                    dialogBoxData={this.state.dialogBoxData}
-                    agendaInitialAvailableHour={this.props.agendaInitialAvailableHour}
-                    layoutWidthDimensions={this.state.layoutWidthDimensions}
-                    agendaLastAvailableHour={this.props.agendaLastAvailableHour}
-                    dataToBeRendered={this.props.dataToBeRendered}
-                />
-            );
+            viewMode = weekMode;
             break;
+          default : alert("there is something wrong here!")
         }
     }
     return (
