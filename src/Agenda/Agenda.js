@@ -132,11 +132,12 @@ export default class Agenda extends React.Component {
 
   calendarNavigationHandler = modal => {
     if(modal === "increment") {
+
       //saving the max index of curr month before incrementing
       this.setState(({prevMonthLastWeekIndex, ...restTop}) => ({
         prevMonthLastWeekIndex: [...prevMonthLastWeekIndex, this.state.currentMonth.length -1],
         ...restTop
-      }));
+      }), () => this.setState({currWeekIndex: 0}));
 
       if(this.state.monthGetter < 11) { //just add months, before changing the year
         this.setState(({monthGetter, ...restTop}) => ({
@@ -154,14 +155,27 @@ export default class Agenda extends React.Component {
       }
     }
     if (modal === "decrement") {
-      //saving the max index of curr month before incrementing
-      this.setState({currWeekIndex: this.state.prevMonthLastWeekIndex[this.state.prevMonthLastWeekIndex.length -1]}, () => {
-        this.setState(({prevMonthLastWeekIndex, ...restTop}) => ({
-          prevMonthLastWeekIndex: [...prevMonthLastWeekIndex.slice(0, -1)],
-          ...restTop
-        }));
 
-      });
+      if(this.state.appViewMode === "WeekMode") {
+        //saving the max index of curr month before incrementing
+        this.setState({currWeekIndex: this.state.prevMonthLastWeekIndex[this.state.prevMonthLastWeekIndex.length -1]}, () => {
+          this.setState(({prevMonthLastWeekIndex, ...restTop}) => ({
+            prevMonthLastWeekIndex: [...prevMonthLastWeekIndex.slice(0, -1)],
+            ...restTop
+          }));
+        });
+      }
+
+      if(this.state.appViewMode === "CalendarMode") {
+        //saving the max index of curr month before incrementing
+        this.setState({currWeekIndex: 0}, () => {
+          this.setState(({prevMonthLastWeekIndex, ...restTop}) => ({
+            prevMonthLastWeekIndex: [...prevMonthLastWeekIndex.slice(0, -1)],
+            ...restTop
+          }));
+        });
+      }
+
 
       //just subtract months, before changing the year, if the current day is not present in the current calendar month.
       if(this.state.monthGetter > 0 && !this.state.currentMonth.flat().includes(new Date().setHours(0,0,0,0).valueOf())) {
