@@ -8,7 +8,7 @@ export default class Agenda extends React.Component {
     appViewMode: "",
     currentWeek: [],
     currWeekIndex: 0,
-    prevMonthLastWeekIndex: 0,
+    prevMonthLastWeekIndex: [],
     currentMonth: [],
     monthGetter: new Date().getMonth(),
     yearGetter: new Date().getFullYear(),
@@ -33,10 +33,9 @@ export default class Agenda extends React.Component {
   };
 
   componentDidUpdate(prevProps, prevState, snapshot) {
-    if(prevState.currentMonth !== this.state.currentMonth && prevState.monthGetter === this.state.monthGetter) {
+    if(prevState.currentMonth !== this.state.currentMonth) {
       this.weekAgendaLogicHandler();
-      }
-
+    }
   }
 
   //the function below spreads the table of existing hours for <EmptyTables/>
@@ -50,15 +49,7 @@ export default class Agenda extends React.Component {
     this.setState({ arrayOfDailyHoursTable });
   };
 
-  currWeekIndexHandler = () => {
-    let currWeekIndex = this.state.prevMonthLastWeekIndex;
-    this.setState({currWeekIndex});
-  };
-
   weekAgendaLogicHandler = () => {
-    if(this.state.currentMonth[this.state.currWeekIndex] === undefined) {
-     this.currWeekIndexHandler()
-      } else {
       //finds the week in the current month which contains today's day
       if(this.state.currentMonth[this.state.currWeekIndex].includes(new Date().setHours(0,0,0,0))) {
         let currentWeek = this.state.currentMonth
@@ -66,13 +57,10 @@ export default class Agenda extends React.Component {
             .flat();
         //spread this week on the state
         this.setState({currentWeek});
-
       } else {
         let currentWeek = this.state.currentMonth[this.state.currWeekIndex];
         this.setState({currentWeek});
       }
-
-    }
   };
 
   weekAgendaNavigationHandler = modal => {
@@ -91,17 +79,12 @@ export default class Agenda extends React.Component {
         );
       }
       if(this.state.currWeekIndex === this.state.currentMonth.length -1) {
-        this.setState(({prevMonthLastWeekIndex, ...restTop}) => ({
-          prevMonthLastWeekIndex: this.state.currWeekIndex,
-          ...restTop
-        }), () => {
           this.setState(({currWeekIndex, ...restTop}) => ({
             currWeekIndex: 0,
             ...restTop
           }), () => {
             this.calendarNavigationHandler("increment");
           });
-        });
       }
     }
     if (modal === "decrement") {
@@ -118,7 +101,6 @@ export default class Agenda extends React.Component {
       };
       if(this.state.currWeekIndex === 0 && !this.state.currentWeek.includes(new Date().setHours(0,0,0,0))) {
         this.calendarNavigationHandler("decrement");
-        this.currWeekIndexHandler();
       }
     }
   };
@@ -150,6 +132,12 @@ export default class Agenda extends React.Component {
 
   calendarNavigationHandler = modal => {
     if(modal === "increment") {
+      //saving the max index of curr month before incrementing
+      this.setState(({prevMonthLastWeekIndex, ...restTop}) => ({
+        prevMonthLastWeekIndex: [...prevMonthLastWeekIndex, this.state.currentMonth.length -1],
+        ...restTop
+      }));
+
       if(this.state.monthGetter < 11) { //just add months, before changing the year
         this.setState(({monthGetter, ...restTop}) => ({
           monthGetter: monthGetter + 1,
@@ -166,6 +154,15 @@ export default class Agenda extends React.Component {
       }
     }
     if (modal === "decrement") {
+      //saving the max index of curr month before incrementing
+      this.setState({currWeekIndex: this.state.prevMonthLastWeekIndex[this.state.prevMonthLastWeekIndex.length -1]}, () => {
+        this.setState(({prevMonthLastWeekIndex, ...restTop}) => ({
+          prevMonthLastWeekIndex: [...prevMonthLastWeekIndex.slice(0, -1)],
+          ...restTop
+        }));
+
+      });
+
       //just subtract months, before changing the year, if the current day is not present in the current calendar month.
       if(this.state.monthGetter > 0 && !this.state.currentMonth.flat().includes(new Date().setHours(0,0,0,0).valueOf())) {
         this.setState(({monthGetter, ...restTop}) => ({
