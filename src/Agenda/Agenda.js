@@ -33,9 +33,10 @@ export default class Agenda extends React.Component {
   };
 
   componentDidUpdate(prevProps, prevState, snapshot) {
-    if(prevState.currentMonth !== this.state.currentMonth) {
+    if(prevState.currentMonth !== this.state.currentMonth && prevState.monthGetter === this.state.monthGetter) {
       this.weekAgendaLogicHandler();
-    }
+      }
+
   }
 
   //the function below spreads the table of existing hours for <EmptyTables/>
@@ -49,11 +50,14 @@ export default class Agenda extends React.Component {
     this.setState({ arrayOfDailyHoursTable });
   };
 
+  currWeekIndexHandler = () => {
+    let currWeekIndex = this.state.prevMonthLastWeekIndex;
+    this.setState({currWeekIndex});
+  };
+
   weekAgendaLogicHandler = () => {
     if(this.state.currentMonth[this.state.currWeekIndex] === undefined) {
-      console.log("index changed last month diff index");
-      let currWeekIndex = this.state.prevMonthLastWeekIndex;
-      this.setState({currWeekIndex});
+     this.currWeekIndexHandler()
       } else {
       //finds the week in the current month which contains today's day
       if(this.state.currentMonth[this.state.currWeekIndex].includes(new Date().setHours(0,0,0,0))) {
@@ -91,7 +95,6 @@ export default class Agenda extends React.Component {
           prevMonthLastWeekIndex: this.state.currWeekIndex,
           ...restTop
         }), () => {
-          console.log("prev max index", this.state.prevMonthLastWeekIndex);
           this.setState(({currWeekIndex, ...restTop}) => ({
             currWeekIndex: 0,
             ...restTop
@@ -114,9 +117,8 @@ export default class Agenda extends React.Component {
         );
       };
       if(this.state.currWeekIndex === 0 && !this.state.currentWeek.includes(new Date().setHours(0,0,0,0))) {
-        let currWeekIndex = this.state.prevMonthLastWeekIndex;
-        this.setState({currWeekIndex},() => console.log("curr week index before decrementing month", this.state.currWeekIndex));
         this.calendarNavigationHandler("decrement");
+        this.currWeekIndexHandler();
       }
     }
   };
