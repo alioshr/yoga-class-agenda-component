@@ -22,6 +22,7 @@ export default function WeekMode(props) {
             {props.currentWeek.map(day => {
                 return (
                     <DayCard
+                        monthGetter={props.monthGetter}
                         backdropIsActive={props.backdropIsActive}
                         key={day}
                         today={day}

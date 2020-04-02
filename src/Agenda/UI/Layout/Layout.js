@@ -21,42 +21,6 @@ export default class Layout extends React.Component {
     };
 
     render() {
-        let renderMonth = null;
-        switch (this.props.appViewMode) {
-            case("WeekMode") :
-                renderMonth = (
-                    this.props.newDatesToVerboseHandler(
-                        new Date(Math.min(...this.props.currentWeek)),
-                        "renderMonth")
-                );
-                break;
-            case ("CalendarMode") :
-                renderMonth = (
-                    this.props.newDatesToVerboseHandler(
-                        new Date(this.props.currentYear,this.props.currentMonth,1),
-                        "renderMonth")
-                );
-                break;
-            default:
-                switch (this.props.defaultMode) {
-                    case("WeekMode") :
-                        renderMonth = (
-                            this.props.newDatesToVerboseHandler(
-                                new Date(Math.min(...this.props.currentWeek)),
-                                "renderMonth")
-                        );
-                        break;
-                    case ("CalendarMode") :
-                        renderMonth = (
-                            this.props.newDatesToVerboseHandler(
-                                new Date(this.props.currentYear,this.props.currentMonth,1),
-                                "renderMonth")
-                        );
-                        break;
-                    default : alert('there is something wrong here!')
-                }
-        }
-
         return (
             <div className={classes.OutStructure}>
                 {/*here is display the top title w/ the curr month*/}
@@ -70,7 +34,7 @@ export default class Layout extends React.Component {
                         className={classes.RightArrow}
                         onClick={() => this.props.appNavigationHandler("increment")}
                     />
-                    {renderMonth}
+                    {this.props.newDatesToVerboseHandler(this.props.currentMonth, "renderMonth")}
                 </div>
                 <div
                     className={classes.AgendaInnerStructure}

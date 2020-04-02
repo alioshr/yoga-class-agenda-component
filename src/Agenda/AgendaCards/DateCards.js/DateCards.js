@@ -10,8 +10,13 @@ export default function DateCards(props) {
         todayStyle = { backgroundColor: "#f56157", color: "white" };
     }
 
+    let nonMonthDates = {};
+    if(new Date(props.today).getMonth() !== props.monthGetter) {
+        nonMonthDates = {color: 'grey'}
+    }
+
     return(
-        <div className={classes.Day} style={Object.assign(props.nonMonthDates,todayStyle)}>
+        <div className={classes.Day} style={Object.assign(nonMonthDates,todayStyle)}>
             {new Date(props.today).getDate()}
         </div>
     )

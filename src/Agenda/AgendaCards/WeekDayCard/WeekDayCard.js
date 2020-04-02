@@ -6,7 +6,6 @@ import DayHeader from "../DayHeader/DayHeader";
 
 export default class Day extends React.Component {
   render() {
-
     let temporaryRemoveBackgroundHoverColor = {};
     if (this.props.backdropIsActive === "cover all") {
       temporaryRemoveBackgroundHoverColor.backgroundColor = "white";
@@ -20,7 +19,7 @@ export default class Day extends React.Component {
           <DayOfTheWeekCard
               newDatesToVerboseHandler={this.props.newDatesToVerboseHandler}
               today={this.props.today}/>
-         <DateCards today={this.props.today} nonMonthDates={{}}/>
+         <DateCards today={this.props.today} monthGetter={this.props.monthGetter}/>
           </DayHeader>
         <div className={classes.ChildInnerTable}>
           <div>{this.props.children}</div>
