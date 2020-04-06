@@ -16,8 +16,10 @@ export default function DateCards(props) {
     }
 
     return(
-        <div className={classes.Day} style={Object.assign(nonMonthDates,todayStyle)}>
-            {new Date(props.today).getDate()}
+        <div className={classes.DateWrapper}>
+            <div className={classes.Day} style={Object.assign(nonMonthDates,todayStyle)}>
+                {new Date(props.today).getDate()}
+            </div>
         </div>
     )
 }

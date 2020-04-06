@@ -1,0 +1,26 @@
+.CurrentTimeWrapper {
+    display: flex;
+    flex-direction: row;
+}
+
+
+.CurrentTime {
+    color: #f56157;
+    border: none;
+    position: relative;
+    z-index: 90;
+    background-color: white;
+    display: flex;
+    flex-direction: row;
+    left: 2px;
+}
+
+.CurrentTimeLine {
+    margin-left: 5px;
+    border-bottom: #f56157 1px solid;
+    height: 1px;
+    width: 100px;
+    right: 0;
+    background-color: transparent;
+
+}

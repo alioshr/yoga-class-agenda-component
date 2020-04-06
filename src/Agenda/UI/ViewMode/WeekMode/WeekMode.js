@@ -1,7 +1,7 @@
 import React from 'react'
 import SideTab from "../../../SideTab/SideTab";
 import TimeTables from "../../../TimeTables/TimeTables";
-import DayCard from "../../../AgendaCards/WeekDayCard/WeekDayCard";
+import WeekDayCard from "./WeekDayCard/WeekDayCard";
 import BackdropFilter from "../../BackdropFilter/BackdropFilter";
 import Button from "../../Button/Button";
 import EventCard from "../../../EventCard/EventCard";
@@ -15,13 +15,16 @@ export default function WeekMode(props) {
         <div style={{display: "flex", flexDirection: "row", width: "100%"}}>
             <SideTab>
                 <TimeTables
+                    dayCardContainerWidth={props.dayCardContainerWidth}
                     style={{ color: "black", border: "none" }}
                     tableOfAvailableHours={props.arrayOfDailyHoursTable}
+                    classInitialAvailableHour={props.agendaInitialAvailableHour}
                 />
             </SideTab>
             {props.currentWeek.map(day => {
                 return (
-                    <DayCard
+                    <WeekDayCard
+                        callbackDayCardContainerDimensions={props.callbackDayCardContainerDimensions}
                         monthGetter={props.monthGetter}
                         backdropIsActive={props.backdropIsActive}
                         key={day}
@@ -109,7 +112,7 @@ export default function WeekMode(props) {
 
                             );
                         })}
-                    </DayCard>
+                    </WeekDayCard>
                 );
             })}
             <SideTab />

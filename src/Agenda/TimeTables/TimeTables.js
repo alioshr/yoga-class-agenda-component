@@ -1,26 +1,28 @@
 import React from "react";
+import CurrentTime from "./CurrentTIme/CurrentTime";
 import classes from "./TimeTables.module.css";
 
 export default function EmptyTables(props) {
-  //ensure that there only content in the div for the
-  // column that displays the hours
-  let renderSingleHour;
+  //ensure that there only content in the div for the column that displays the hours
   if (props.style) {
     let style = {
       boxShadow: "none",
       borderRadius: "0"
     };
     Object.assign(props.style, style);
-    renderSingleHour = true;
   }
-
   return (
-    <div onClick={props.backdropDisplayHandler}>
+    <div onClick={props.backdropDisplayHandler} className={classes.EmptyTableWrapper}>
+      {props.style !== undefined ?
+          <CurrentTime
+              classInitialAvailableHour={props.classInitialAvailableHour}
+              dayCardContainerWidth={props.dayCardContainerWidth}/> :
+      null}
       {props.tableOfAvailableHours.map(singleHour => {
         //ensure that there only content in the div for the
         // column that displays the hours
         let displaySingleHour;
-        if (renderSingleHour) {
+        if (props.style !== undefined) {
           displaySingleHour = `${singleHour}:00`;
         }
         return (

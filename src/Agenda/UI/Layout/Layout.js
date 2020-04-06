@@ -24,7 +24,10 @@ export default class Layout extends React.Component {
         return (
             <div className={classes.OutStructure}>
                 {/*here is display the top title w/ the curr month*/}
-                <ViewMode weekMode={this.props.weekMode} monthMode={this.props.monthMode}/>
+                <ViewMode
+                    weekMode={this.props.weekMode}
+                    monthMode={this.props.monthMode}
+                    dayMode={this.props.dayMode}/>
                 <div className={classes.MonthDisplay}>
                     <div
                         className={classes.LeftArrow}

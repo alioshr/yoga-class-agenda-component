@@ -55,7 +55,7 @@ export default class App extends React.Component {
     return (
         <div className="App">
           <Agenda
-              defaultMode={"WeekMode"}
+              defaultMode={"DayMode"}
               dataToBeRendered={this.state.classes}
               agendaInitialAvailableHour={6}//or starting row in case of month view
               agendaLastAvailableHour={22}//or starting row in case of month view

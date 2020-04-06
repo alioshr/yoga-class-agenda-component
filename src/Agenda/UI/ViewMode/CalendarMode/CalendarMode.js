@@ -1,5 +1,5 @@
 import React from 'react'
-import MonthDayCard from "../../../AgendaCards/MonthDayCard/MonthDayCard";
+import MonthDayCard from "./MonthDayCard/MonthDayCard";
 import DateCards from "../../../AgendaCards/DateCards.js/DateCards";
 
 export default function CalendarMode(props) {

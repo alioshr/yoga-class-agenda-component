@@ -1,8 +1,16 @@
+.DateWrapper {
+    display: flex;
+    justify-content: center;
+    width: 100%;
+
+}
+
 .Day {
     color: #443a3c;
     padding: 15px;
     border-radius: 50%;
     font-size: 30px;
     width: 20%;
+    max-width: 40px;
     margin: 0 auto 0 auto;
 }
