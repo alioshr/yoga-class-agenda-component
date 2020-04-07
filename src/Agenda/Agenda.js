@@ -209,11 +209,13 @@ export default class Agenda extends React.Component {
       this.setState(({prevMonthLastWeekIndex, ...restTop}) => ({
         prevMonthLastWeekIndex: [...prevMonthLastWeekIndex, this.state.currentMonth.length -1],
         ...restTop
-      }), () => this.setState(({currWeekIndex, currentDayIndex, ...restTop}) => ({
-        currentDayIndex: 0,
-        currWeekIndex: 0,
-        ...restTop
-      })));
+      }), () =>
+        this.setState(({currWeekIndex, currentDayIndex, ...restTop}) => ({
+          currentDayIndex: 0,
+          currWeekIndex: 0,
+          ...restTop
+        }))
+      );
       if(this.state.monthGetter < 11) { //just add months, before changing the year
         this.setState(({monthGetter, ...restTop}) => ({
           monthGetter: monthGetter + 1,
@@ -243,9 +245,10 @@ export default class Agenda extends React.Component {
         // that will come after the first week of the month being rendered upon decrementing
         // so If navigating backwards in DayMode, It will have the proper reference of the last week's index
         const currentWeekIndex = this.state.currWeekIndex;
-        const prevMonthLastWeekIndex = this.state.prevMonthLastWeekIndex;
+        const prevMonthLastWeekIndex = this.state.prevMonthLastWeekIndex[this.state.prevMonthLastWeekIndex.length -1];
+        const prevWeekLastDayIndexLength = this.state.prevWeekLastDayIndex.length -1;
         this.setState(({prevWeekLastDayIndex, ...restTop}) => ({
-          prevWeekLastDayIndex: [prevWeekLastDayIndex.slice(0, prevWeekLastDayIndex.length -1 -currentWeekIndex - prevMonthLastWeekIndex)],
+          prevWeekLastDayIndex: [...prevWeekLastDayIndex.slice(0, prevWeekLastDayIndexLength - currentWeekIndex - prevMonthLastWeekIndex)],
           ...restTop
         }));
         //saving the max index of curr month before incrementing
