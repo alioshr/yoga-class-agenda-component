@@ -455,6 +455,7 @@ export default class Agenda extends React.Component {
     let viewMode = "";
     const weekMode = (
         <WeekMode
+            appViewMode={this.state.appViewMode}
             arrayOfDailyHoursTable={this.state.arrayOfDailyHoursTable}
             backdropIsActive={this.state.backdropIsActive}
             newDatesToVerboseHandler={this.newDatesToVerboseHandler}
@@ -480,6 +481,7 @@ export default class Agenda extends React.Component {
     );
     const dayMode = (
         <DayMode
+            appViewMode={this.state.appViewMode}
             arrayOfDailyHoursTable={this.state.arrayOfDailyHoursTable}
             newDatesToVerboseHandler={this.newDatesToVerboseHandler}
             agendaInitialAvailableHour={this.props.agendaInitialAvailableHour}

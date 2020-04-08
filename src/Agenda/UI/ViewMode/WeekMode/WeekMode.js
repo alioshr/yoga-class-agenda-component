@@ -15,6 +15,7 @@ export default function WeekMode(props) {
         <div style={{display: "flex", flexDirection: "row", width: "100%"}}>
             <SideTab>
                 <TimeTables
+                    appViewMode={props.appViewMode}
                     dayCardContainerWidth={props.dayCardContainerWidth}
                     style={{ color: "black", border: "none" }}
                     tableOfAvailableHours={props.arrayOfDailyHoursTable}

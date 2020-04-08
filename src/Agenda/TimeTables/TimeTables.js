@@ -11,12 +11,17 @@ export default function EmptyTables(props) {
     };
     Object.assign(props.style, style);
   }
+  let dataPasser;
+  if(props.dayCardContainerWidth !== undefined) {
+    dataPasser = props.dayCardContainerWidth;
+  }
   return (
     <div onClick={props.backdropDisplayHandler} className={classes.EmptyTableWrapper}>
       {props.style !== undefined ?
           <CurrentTime
-              classInitialAvailableHour={props.classInitialAvailableHour}
-              dayCardContainerWidth={props.dayCardContainerWidth}/> :
+              dayCardContainerWidth={dataPasser}
+              appViewMode={props.appViewMode}
+              classInitialAvailableHour={props.classInitialAvailableHour}/> :
       null}
       {props.tableOfAvailableHours.map(singleHour => {
         //ensure that there only content in the div for the
