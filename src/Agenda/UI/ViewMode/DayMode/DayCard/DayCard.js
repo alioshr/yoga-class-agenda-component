@@ -1,4 +1,4 @@
-import React, {useState, useEffect, useRef, useLayoutEffect} from 'react'
+import React, {useState, useRef, useLayoutEffect} from 'react'
 import classes from './DayCard.module.css'
 import DayHeader from "../../../../AgendaCards/DayHeader/DayHeader";
 import DayOfTheWeekCard from "../../../../AgendaCards/DayOfTheWeekCard/DayOfTheWeekCard";

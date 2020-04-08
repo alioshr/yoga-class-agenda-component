@@ -5,25 +5,18 @@ import EventCard from "../../../EventCard/EventCard";
 import DayCard from "./DayCard/DayCard";
 
 export default function DayMode(props) {
-    const [dayCardRef, setDayCardRef] = useState(null);
+    const [dayCardRef, setDayCardRef] = useState();
 
     const callbackDivRef = childRef => {
-        if(childRef !== null) {
             setDayCardRef(childRef)
-        }
     };
-    let dayCardReference;
-    if(dayCardRef !== null) {
-        dayCardReference = dayCardRef
-
-    }
     const today = props.currentDay;
     return (
         <div style={{display: "flex", flexDirection: "row", width: "100%"}}>
             <SideTab>
                 <TimeTables
                     appViewMode={props.appViewMode}
-                    dayCardContainerWidth={dayCardReference}
+                    dayCardContainerWidth={dayCardRef}
                     style={{ color: "black", border: "none" }}
                     tableOfAvailableHours={props.arrayOfDailyHoursTable}
                     classInitialAvailableHour={props.agendaInitialAvailableHour}
