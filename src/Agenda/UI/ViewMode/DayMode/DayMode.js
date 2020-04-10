@@ -13,7 +13,7 @@ export default function DayMode(props) {
     const today = props.currentDay;
     return (
         <div style={{display: "flex", flexDirection: "row", width: "100%"}}>
-            <SideTab>
+            <SideTab style={{height: "auto"}}>
                 <TimeTables
                     appViewMode={props.appViewMode}
                     dayCardContainerWidth={dayCardRef}
@@ -23,6 +23,7 @@ export default function DayMode(props) {
                 />
             </SideTab>
             <DayCard
+                appViewMode={props.appViewMode}
                 callbackDivRef={callbackDivRef}
                 monthGetter={props.monthGetter}
                 backdropIsActive={props.backdropIsActive}

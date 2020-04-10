@@ -294,6 +294,18 @@ export default class Agenda extends React.Component {
     }
   };
 
+  takeMeToToday = () => {
+      this.setState(({yearGetter, monthGetter, currWeekIndex, currentDayIndex, ...restTop}) => ({
+        yearGetter : new Date().getFullYear(),
+        monthGetter: new Date().getMonth(),
+        currWeekIndex: 'initial',
+        currentDayIndex: 'initial',
+        ...restTop
+      }), () => {
+        this.calendarLogicHandler();
+      })
+  };
+
   //this function does the verbose work for my days to appear nicely
   newDatesToVerboseHandler = (date, verboseType) => {
     let renderWeekDay = date.toString().length > 2 ?
@@ -302,89 +314,69 @@ export default class Agenda extends React.Component {
       case 0:
         renderWeekDay = "Sunday";
         break;
-
       case 1:
         renderWeekDay = "Monday";
         break;
-
       case 2:
         renderWeekDay = "Tuesday";
         break;
-
       case 3:
         renderWeekDay = "Wednesday";
         break;
-
       case 4:
         renderWeekDay = "Thursday";
         break;
-
       case 5:
         renderWeekDay = "Friday";
         break;
-
       case 6:
         renderWeekDay = "Saturday";
         break;
       default:
         renderWeekDay = null;
     }
-
     let renderMonth =  date.toString().length > 2 ?
         date.getMonth() : date;
-
     switch (renderMonth) {
       case 0:
         renderMonth = "January";
         break;
-
       case 1:
         renderMonth = "February";
         break;
-
       case 2:
         renderMonth = "March";
         break;
-
       case 3:
         renderMonth = "April";
         break;
-
       case 4:
         renderMonth = "May";
         break;
-
       case 5:
         renderMonth = "June";
         break;
-
       case 6:
         renderMonth = "July";
         break;
-
       case 7:
         renderMonth = "August";
         break;
-
       case 8:
         renderMonth = "September";
         break;
-
       case 9:
         renderMonth = "October";
         break;
-
       case 10:
         renderMonth = "November";
         break;
-
       case 11:
         renderMonth = "December";
         break;
       default:
         renderMonth = null;
     }
-
     if (verboseType === "renderWeekDay") {
       return renderWeekDay;
     }
@@ -454,6 +446,7 @@ export default class Agenda extends React.Component {
   render() {
     let viewMode = "";
     const weekMode = (
+        //the min width for weekMOde in curr setup is 700px wide
         <WeekMode
             appViewMode={this.state.appViewMode}
             arrayOfDailyHoursTable={this.state.arrayOfDailyHoursTable}
@@ -473,13 +466,17 @@ export default class Agenda extends React.Component {
         />
     );
     const calendarMode = (
+        //the min width for the calendar mode in curr setup is 590px wide
         <CalendarMode
+            appViewMode={this.state.appViewMode}
+            calendarViewType={this.props.calendarViewType}
             monthGetter={this.state.monthGetter}
             currentMonth={this.state.currentMonth}
             currentWeek={this.state.currentWeek}
             newDatesToVerboseHandler={this.newDatesToVerboseHandler}/>
     );
     const dayMode = (
+        //day mode width is just fine
         <DayMode
             appViewMode={this.state.appViewMode}
             arrayOfDailyHoursTable={this.state.arrayOfDailyHoursTable}
@@ -503,6 +500,8 @@ export default class Agenda extends React.Component {
     }
     return (
         <Layout
+            calendarViewType={this.props.calendarViewType}
+            takeMeToToday={this.takeMeToToday}
             defaultMode={this.props.defaultMode}
             appViewMode={this.state.appViewMode}
             weekMode={() => this.viewModeHandler("WeekMode")}
@@ -514,6 +513,7 @@ export default class Agenda extends React.Component {
             currentWeek={this.state.currentWeek}
             currentMonth={this.state.monthGetter}
             currentYear={this.state.yearGetter}
+            currentDay={this.state.currentDay}
         >
           {viewMode}
         </Layout>

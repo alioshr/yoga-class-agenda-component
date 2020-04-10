@@ -5,7 +5,7 @@ import DateCards from "../../../AgendaCards/DateCards.js/DateCards";
 export default function CalendarMode(props) {
     return (
         <div style={{display: "flex", flexDirection: "row", width: "100%"}}>
-            {[1585450800000, 1585537200000, 1585623600000, 1585710000000, 1585796400000, 1585882800000, 1585969200000].map(day =>
+            {[1585450800000, 1585537200000, 1585623600000, 1585710000000, 1585796400000, 1585882800000, 1585969200000].map((day, dayIndex) =>
                 <MonthDayCard
                     key={day}
                     newDatesToVerboseHandler={props.newDatesToVerboseHandler}
@@ -14,10 +14,15 @@ export default function CalendarMode(props) {
                     {props.currentMonth
                         .flat()
                         .filter(date => new Date(date).getDay() === new Date(day).getDay())
-                        .map(date =>
+                        .map((date, innerDateIndex) =>
                             <DateCards today={date}
                                        key={date}
-                                       monthGetter={props.monthGetter}/>
+                                       monthGetter={props.monthGetter}
+                                       newDatesToVerboseHandler={props.newDatesToVerboseHandler}
+                                       calendarViewType={props.calendarViewType}
+                                       cardDayIndex={dayIndex}
+                                       cardDatesInnerIndex={innerDateIndex}
+                                       appViewMode={props.appViewMode}/>
                         )}
                 </MonthDayCard>
             )}

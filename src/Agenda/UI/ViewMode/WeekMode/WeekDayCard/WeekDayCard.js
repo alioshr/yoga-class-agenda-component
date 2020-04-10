@@ -37,7 +37,9 @@ export default class Day extends React.Component {
           <DayOfTheWeekCard
               newDatesToVerboseHandler={this.props.newDatesToVerboseHandler}
               today={this.props.today}/>
-         <DateCards today={this.props.today} monthGetter={this.props.monthGetter}/>
+         <DateCards today={this.props.today}
+                    monthGetter={this.props.monthGetter}
+                    newDatesToVerboseHandler={this.props.newDatesToVerboseHandler}/>
           </DayHeader>
         <div
             className={classes.ChildInnerTable}

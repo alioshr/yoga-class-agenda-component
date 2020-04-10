@@ -1,0 +1,26 @@
+.MonthTeller {
+    color: #278040;
+    position: absolute;
+    top: 0;
+    opacity: 1;
+    -webkit-transition: all 1s ease;
+    -moz-transition: all 1s ease;
+    -o-transition: all 1s ease;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
+
+.LowerBorder {
+    background-color: #278040;
+    height: 4px;
+    width: 10%;
+    transition: width 1s ease-in;
+}
+
+.LowerBorder:hover {
+    width: 100%;
+    transition: width 1s ease-out;
+}
+

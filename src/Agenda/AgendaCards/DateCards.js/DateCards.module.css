@@ -2,16 +2,19 @@
     display: flex;
     justify-content: center;
     width: 100%;
-
+    /*got to work on this to make it responsive*/
+   height: auto;
+    margin: 0;
+    padding: 0;
+    position: relative;
+    box-sizing: border-box;
 }
 
 .Day {
+    display: inline-block;
     color: #443a3c;
-    padding: 15px;
     border-radius: 50%;
+    padding: 10px;
     font-size: 30px;
-    width: 40px;
-    height: 30px;
-    max-width: 40px;
     margin: 0 auto 0 auto;
 }

@@ -1,4 +1,4 @@
-import React, {useState, useRef, useLayoutEffect} from 'react'
+import React, {useState, useRef, useLayoutEffect, useEffect} from 'react'
 import classes from './DayCard.module.css'
 import DayHeader from "../../../../AgendaCards/DayHeader/DayHeader";
 import DayOfTheWeekCard from "../../../../AgendaCards/DayOfTheWeekCard/DayOfTheWeekCard";
@@ -18,18 +18,13 @@ export default function DayCard(props) {
             window.removeEventListener("resize", updateDimensions)
         }
     }, []);
-   if(dimensions.width) {
-       props.callbackDivRef(dimensions);
-   }
+
+    useEffect(() => {
+        props.callbackDivRef(dimensions);
+    }, [dimensions]);
 
     return (
         <div className={classes.DayCard}>
-            <DayHeader>
-                <DayOfTheWeekCard
-                    newDatesToVerboseHandler={props.newDatesToVerboseHandler}
-                    today={props.today}/>
-                    <DateCards today={props.today} monthGetter={props.monthGetter}/>
-            </DayHeader>
             <div className={classes.ChildInnerTable}
                  ref={ref} >
                 <div>{props.children}</div>
