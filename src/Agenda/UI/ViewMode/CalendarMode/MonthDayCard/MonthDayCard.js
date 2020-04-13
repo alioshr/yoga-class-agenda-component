@@ -4,11 +4,17 @@ import DayHeader from "../../../../AgendaCards/DayHeader/DayHeader";
 import DayOfTheWeekCard from "../../../../AgendaCards/DayOfTheWeekCard/DayOfTheWeekCard";
 
 export default function MonthCard (props) {
+    let dayHeaderWrapper = {};
+    let dayCardStyle = {};
+    if(props.calendarViewType === "FullCalendar") {
+        dayHeaderWrapper = {zIndex: 0, fontSize: "1.5rem", justifyContent: "flex-end", alignItems: "flex-end", height: "auto"}
+        dayCardStyle = {color: "black", margin: "1px", fontSize: "1.5rem"}
+    }
 return (
     <div className={classes.MonthCard}>
-            <DayHeader style={{zIndex: 0, fontSize: "1.5rem", justifyContent: "flex-end", alignItems: "flex-end", height: "auto"}}>
+            <DayHeader style={dayHeaderWrapper}>
                 <DayOfTheWeekCard
-                    style={{color: "black", margin: "1px"}}
+                    style={dayCardStyle}
                     newDatesToVerboseHandler={props.newDatesToVerboseHandler}
                     today={props.today}/>
             </DayHeader>

@@ -20,6 +20,7 @@ export default function WeekMode(props) {
                     style={{ color: "black", border: "none" }}
                     tableOfAvailableHours={props.arrayOfDailyHoursTable}
                     classInitialAvailableHour={props.agendaInitialAvailableHour}
+                    classLastAvailableHour={props.agendaLastAvailableHour}
                 />
             </SideTab>
             {props.currentWeek.map(day => {

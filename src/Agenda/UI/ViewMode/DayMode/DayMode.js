@@ -19,7 +19,8 @@ export default function DayMode(props) {
                     dayCardContainerWidth={dayCardRef}
                     style={{ color: "black", border: "none" }}
                     tableOfAvailableHours={props.arrayOfDailyHoursTable}
-                    classInitialAvailableHour={props.agendaInitialAvailableHour}
+                    agendaInitialAvailableHour={props.agendaInitialAvailableHour}
+                    agendaLastAvailableHour={props.agendaLastAvailableHour}
                 />
             </SideTab>
             <DayCard

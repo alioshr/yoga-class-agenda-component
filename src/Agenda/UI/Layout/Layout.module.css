@@ -3,6 +3,11 @@
   width: 100%;
 }
 
+.FirstRow{
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+}
+
 button {
   background-color: #f8f8f8;
   color: black;

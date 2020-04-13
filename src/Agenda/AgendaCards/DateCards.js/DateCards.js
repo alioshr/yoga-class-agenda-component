@@ -25,12 +25,10 @@ export default function DateCards(props) {
         if(props.cardDatesInnerIndex === 0) {
             Object.assign(fullCalendarStyle, {borderTop: borderConfig})
         }
-        if(currentMonthDateDifferentFromCurrentMonth) {
-            Object.assign(fullCalendarStyle,{backgroundColor: "#f8f8f8"});
-        }
     }
     if(currentMonthDateDifferentFromCurrentMonth){
         nonMonthDates = {color: 'grey'};
+        Object.assign(fullCalendarStyle,{backgroundColor: "#F2F2F2"});
     }
     return(
         <div className={classes.DateWrapper}

@@ -7,6 +7,7 @@ export default function CalendarMode(props) {
         <div style={{display: "flex", flexDirection: "row", width: "100%"}}>
             {[1585450800000, 1585537200000, 1585623600000, 1585710000000, 1585796400000, 1585882800000, 1585969200000].map((day, dayIndex) =>
                 <MonthDayCard
+                    calendarViewType={props.calendarViewType}
                     key={day}
                     newDatesToVerboseHandler={props.newDatesToVerboseHandler}
                     today={day}

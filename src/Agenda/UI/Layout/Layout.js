@@ -30,10 +30,12 @@ export default class Layout extends React.Component {
                 calendarViewType = (
                     <div className={classes.OutStructure}>
                         {/*here is display the top title w/ the curr month*/}
-                        <ViewMode
-                            weekMode={this.props.weekMode}
-                            monthMode={this.props.monthMode}
-                            dayMode={this.props.dayMode}/>
+                        <div className={classes.FirstRow}>
+                            <ViewMode
+                                weekMode={this.props.weekMode}
+                                monthMode={this.props.monthMode}
+                                dayMode={this.props.dayMode}/>
+                        </div>
                         <div className={classes.SecondRow}>
                             <div className={classes.MonthDisplay}>
                                 {this.props.appViewMode === "DayMode" ?

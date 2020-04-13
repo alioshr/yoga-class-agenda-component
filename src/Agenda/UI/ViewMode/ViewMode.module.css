@@ -3,6 +3,8 @@
     flex-direction: row;
     justify-content: center;
     border-radius: 5px;
+    justify-self: center;
+    align-self: center;
 
 }
 
