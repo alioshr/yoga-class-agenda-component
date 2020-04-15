@@ -1,12 +1,12 @@
 import React from 'react'
-import SideTab from "../../../SideTab/SideTab";
-import TimeTables from "../../../TimeTables/TimeTables";
+import SideTab from "../../../Components/SideTab/SideTab";
+import TimeTables from "../../../Components/TimeTables/TimeTables";
 import WeekDayCard from "./WeekDayCard/WeekDayCard";
 import BackdropFilter from "../../BackdropFilter/BackdropFilter";
 import Button from "../../Button/Button";
-import EventCard from "../../../EventCard/EventCard";
+import EventCard from "../../../Components/EventCard/EventCard";
 import EventDialogBox from "../../EventDialogBox/EventDialogBox";
-import FullEventCard from "../../../EventCard/FullEventCard/FullEventCard";
+import FullEventCard from "../../../Components/EventCard/FullEventCard/FullEventCard";
 import Transition from "react-transition-group/cjs/Transition";
 
 

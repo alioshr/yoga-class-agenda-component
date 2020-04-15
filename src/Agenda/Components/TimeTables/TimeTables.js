@@ -1,5 +1,5 @@
 import React, {useState, useEffect, useLayoutEffect, useRef} from "react";
-import CurrentTime from "../UI/CurrentTIme/CurrentTime";
+import CurrentTime from "../../UI/CurrentTIme/CurrentTime";
 import classes from "./TimeTables.module.css";
 
 export default function EmptyTables(props) {

@@ -1,6 +1,6 @@
 import React from 'react'
 import MonthDayCard from "./MonthDayCard/MonthDayCard";
-import DateCards from "../../../AgendaCards/DateCards.js/DateCards";
+import DateCards from "../../../Components/AgendaCards/DateCards.js/DateCards";
 
 export default function CalendarMode(props) {
     return (

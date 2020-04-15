@@ -4,6 +4,7 @@ import ViewMode from "../ViewMode/ViewMode";
 import RightArrow from "../NavigationButtons/RightArrow/RightArrow";
 import LeftArrow from "../NavigationButtons/LeftArrow/LeftArrow";
 import AgendaTitles from "../AgendaTitles/AgendaTitles";
+import TakeMeHome from "../NavigationButtons/TakeMeHome/TakeMeHome";
 
 export default class Layout extends React.Component {
     state = { width: 0, height: 0 };
@@ -46,7 +47,7 @@ export default class Layout extends React.Component {
                                          calendarViewType={this.props.calendarViewType}/>
                             <div className={classes.ControlsDisplay}>
                                <LeftArrow appNavigationHandler={this.props.appNavigationHandler}/>
-                                <button onClick={this.props.takeMeToToday}>Today</button>
+                                <TakeMeHome takeMeToToday={this.props.takeMeToToday}/>
                                <RightArrow appNavigationHandler={this.props.appNavigationHandler}/>
                             </div>
                         </div>

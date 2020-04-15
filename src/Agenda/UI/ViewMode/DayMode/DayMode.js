@@ -1,7 +1,7 @@
 import React, {useLayoutEffect, useRef, useState} from 'react'
-import SideTab from "../../../SideTab/SideTab";
-import TimeTables from "../../../TimeTables/TimeTables";
-import EventCard from "../../../EventCard/EventCard";
+import SideTab from "../../../Components/SideTab/SideTab";
+import TimeTables from "../../../Components/TimeTables/TimeTables";
+import EventCard from "../../../Components/EventCard/EventCard";
 import CalendarMode from "../CalendarMode/CalendarMode";
 import LeftArrow from "../../NavigationButtons/LeftArrow/LeftArrow";
 import AgendaTitles from "../../AgendaTitles/AgendaTitles";

@@ -1,8 +1,8 @@
 import React from "react";
 import classes from "./WeekDayCard.module.css";
-import DateCards from "../../../../AgendaCards/DateCards.js/DateCards";
-import DayOfTheWeekCard from "../../../../AgendaCards/DayOfTheWeekCard/DayOfTheWeekCard";
-import DayHeader from "../../../../AgendaCards/DayHeader/DayHeader";
+import DateCards from "../../../../Components/AgendaCards/DateCards.js/DateCards";
+import DayOfTheWeekCard from "../../../../Components/AgendaCards/DayOfTheWeekCard/DayOfTheWeekCard";
+import DayHeader from "../../../../Components/AgendaCards/DayHeader/DayHeader";
 
 export default class Day extends React.Component {
     state = { width: 0, height: 0 };

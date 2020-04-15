@@ -1,6 +1,6 @@
 import React, {useState} from 'react'
 import classes from "./DateCards.module.css";
-import MonthTeller from "../../UI/MonthTeller/MonthTeller";
+import MonthTeller from "../../../UI/MonthTeller/MonthTeller";
 import Transition from "react-transition-group/cjs/Transition";
 
 export default function DateCards(props) {

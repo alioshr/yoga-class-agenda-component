@@ -1,7 +1,7 @@
 import React from 'react'
 import classes from './MonthDayCard.module.css'
-import DayHeader from "../../../../AgendaCards/DayHeader/DayHeader";
-import DayOfTheWeekCard from "../../../../AgendaCards/DayOfTheWeekCard/DayOfTheWeekCard";
+import DayHeader from "../../../../Components/AgendaCards/DayHeader/DayHeader";
+import DayOfTheWeekCard from "../../../../Components/AgendaCards/DayOfTheWeekCard/DayOfTheWeekCard";
 
 export default function MonthCard (props) {
     let dayHeaderWrapper = {};
