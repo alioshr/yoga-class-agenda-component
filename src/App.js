@@ -1,5 +1,5 @@
 import React from "react";
-import Agenda from "./Agenda/Agenda";
+import Agenda from "./Agenda/Containers/Agenda/Agenda";
 import "./styles.css";
 
 export default class App extends React.Component {
@@ -59,7 +59,7 @@ export default class App extends React.Component {
               defaultMode={"DayMode"}
               dataToBeRendered={this.state.classes}
               agendaInitialAvailableHour={8}//or starting row in case of month view
-              agendaLastAvailableHour={23}//or starting row in case of month view
+              agendaLastAvailableHour={22}//or starting row in case of month view
           />
         </div>
     );

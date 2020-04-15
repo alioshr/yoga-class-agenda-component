@@ -8,30 +8,10 @@
   grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
 }
 
-button {
-  background-color: #f8f8f8;
-  color: black;
-  border: none;
-  border-radius: 5px;
-  font-size: 20px;
-  margin: 2px;
-}
-
 .SecondRow {
   display: flex;
   justify-content: space-between;
   position: relative;
-}
-
-.MonthDisplay {
-  text-align: left;
-  width: 100%;
-  font-size: 40px;
-  color: #443a3c;
-  position: sticky;
-  background-color: white;
-  z-index: 1000;
-  padding: 0;
 }
 
 .ControlsDisplay {
@@ -40,22 +20,13 @@ button {
   padding: 10px;
 }
 
-.LeftArrow {
-  border-top: 15px solid white;
-  border-right: 30px solid #e0e0e0;
-  border-bottom: 15px solid white;
-  z-index: 1000;
-  cursor: pointer;
-  margin: 7px 0;
-}
-
-.RightArrow {
-  border-top: 15px solid white;
-  border-left: 30px solid #e0e0e0;
-  border-bottom: 15px solid white;
-  z-index: 1000;
-  cursor: pointer;
-  margin: 7px 0;
+button {
+  background-color: #f8f8f8;
+  color: black;
+  border: none;
+  border-radius: 5px;
+  font-size: 20px;
+  margin: 2px;
 }
 
 .AgendaInnerStructure {

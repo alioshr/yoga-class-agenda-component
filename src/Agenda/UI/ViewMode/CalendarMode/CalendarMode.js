@@ -17,6 +17,7 @@ export default function CalendarMode(props) {
                         .filter(date => new Date(date).getDay() === new Date(day).getDay())
                         .map((date, innerDateIndex) =>
                             <DateCards today={date}
+                                       currentDay={props.currentDay}
                                        key={date}
                                        monthGetter={props.monthGetter}
                                        newDatesToVerboseHandler={props.newDatesToVerboseHandler}

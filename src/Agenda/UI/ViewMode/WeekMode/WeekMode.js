@@ -15,12 +15,13 @@ export default function WeekMode(props) {
         <div style={{display: "flex", flexDirection: "row", width: "100%"}}>
             <SideTab>
                 <TimeTables
+                    currAgendaData={props.currentWeek}
                     appViewMode={props.appViewMode}
                     dayCardContainerWidth={props.dayCardContainerWidth}
-                    style={{ color: "black", border: "none" }}
+                    style={{ color: "black", border: "none", boxShadow: "none",  borderRadius: "0" }}
                     tableOfAvailableHours={props.arrayOfDailyHoursTable}
-                    classInitialAvailableHour={props.agendaInitialAvailableHour}
-                    classLastAvailableHour={props.agendaLastAvailableHour}
+                    agendaInitialAvailableHour={props.agendaInitialAvailableHour}
+                    agendaLastAvailableHour={props.agendaLastAvailableHour}
                 />
             </SideTab>
             {props.currentWeek.map(day => {

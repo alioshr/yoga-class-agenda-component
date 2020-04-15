@@ -1,0 +1,8 @@
+.LeftArrow {
+    border-top: 15px solid white;
+    border-right: 30px solid #e0e0e0;
+    border-bottom: 15px solid white;
+    z-index: 1000;
+    cursor: pointer;
+    margin: 7px 0;
+}
