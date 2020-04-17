@@ -40,14 +40,6 @@ export default function DayMode(props) {
                               currentDay={props.currentDay}
                               appViewMode={props.appViewMode}
                               calendarViewType={props.calendarViewType}/>
-                <AgendaTitles newDatesToVerboseHandler={props.newDatesToVerboseHandler}
-                              monthGetter={props.monthGetter}
-                              currentMonth={props.currentMonth}
-                              currentYear={props.currentYear}
-                              currentDay={props.currentDay}
-                              appViewMode={props.appViewMode}
-                              calendarViewType={props.calendarViewType}
-                              displayDayOfTheWeek={true}/>
                 <div style={{display: "flex", flexDirection: "row", width: "1000px"}}>
                     <SideTab style={{height: "auto"}}>
                         <TimeTables currAgendaData={props.currentDay}
