@@ -3,15 +3,21 @@
   width: 100%;
 }
 
+.HeaderWrapper {
+  position: sticky;
+  top: 0;
+  z-index: 1000;
+  background-color: white;
+}
+
 .FirstRow{
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+  grid-template-columns: repeat(auto-fit, minmax(auto, 1fr));
 }
 
 .SecondRow {
   display: flex;
   justify-content: space-between;
-  position: relative;
 }
 
 .ControlsDisplay {

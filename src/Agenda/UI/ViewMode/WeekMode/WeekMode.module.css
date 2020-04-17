@@ -1,0 +1,34 @@
+.WeekModeWrapper {
+  display: flex;
+  flex-direction: row;
+  width: 100%;
+}
+
+.CardHeader {
+  height: auto; /*check if need to change this later back to 100px*/
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-direction: column;
+  position: sticky;
+  top: 79px;
+  margin-bottom: 10px;
+  background-color: white;
+  z-index: 1000;
+}
+
+.DayCard {
+  width: 100%;
+  min-width: 12%;
+  transition: all 1s ease;
+}
+
+.DayCard:hover {
+  min-width: 15%;
+  background-color: #f8f8f8;
+  transition: background-color 1s ease-out, min-width 1s ease-out;
+}
+
+.InnerTableData {
+  position: relative;
+}

@@ -14,8 +14,8 @@ export default function EventDialogBox(props) {
   let eventDialogBoxPosition = {};
   //positioning logic for the dialog box below
   eventDialogBoxPosition.top = 0;
-  eventDialogBoxPosition.width = percentCalc(61, totalContainerWidth) - 90 + "px";
-  eventDialogBoxPosition.height = percentCalc(50, totalTableHeight) + "px";
+  eventDialogBoxPosition.width = percentCalc(30, totalContainerWidth) - 90 + "px";
+  eventDialogBoxPosition.height = percentCalc(20, totalTableHeight) + "px";
   //if day is before Wednesday
   if (new Date(props.today).getDay() > 3) {
     delete eventDialogBoxPosition.left;

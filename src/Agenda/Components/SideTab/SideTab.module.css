@@ -9,9 +9,6 @@
   justify-content: center;
   position: sticky;
   background-color: white;
-}
-
-.SideTabChildren {
-  color: black;
-  border: none;
+  top: 79px;
+  z-index: 1000;
 }

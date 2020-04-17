@@ -27,7 +27,6 @@ export default function ClassCard(props) {
     )}:${padToTwo(
         new Date(classStart + classMinutesInMilliseconds(clDuration)).getMinutes()
     )}`;
-
     if (classModal === "class start") {
       return classStart;
     }
@@ -35,25 +34,24 @@ export default function ClassCard(props) {
       return classEnd;
     }
   };
-
   //taking in consideration a global consensus that 1px = 1min below I calculate the position on the card
   //according to the scheduled time
   const calculateCardTopPositioning =
       (props.classTime.hour - props.classInitialAvailableHour) * 60 +
       props.classTime.minutes;
-  const calculateCardWidthPositioning = props.classDuration
+  const calculateCardHeight = props.classDuration
       .split("")
       .slice(0, 2)
       .join("");
-  let cardPosition = {
+  const cardPosition = {
     top: calculateCardTopPositioning + "px",
-    height: calculateCardWidthPositioning + "px"
+    height: calculateCardHeight + "px"
   };
   return (
 
       <Fragment>
         {props.classDate === props.currDay ?
-            <div onClick={() => props.displayFullEventCard(props.currDay, calculateCardTopPositioning, calculateCardWidthPositioning)}
+            <div onClick={() => props.displayFullEventCard(props.currDay, calculateCardTopPositioning, calculateCardHeight)}
                  className={classes.EventCard}
                  style={cardPosition}>
               <Fragment>
