@@ -16,7 +16,7 @@ export default function CurrentTime(props) {
             currentTimeLineWidth = {width: props.dayCardContainerWidth.width + "px"};
         }
     }
-    if(props.appViewMode === "WeekMode") {
+    if(props.appViewMode === "WeekMode" && props.dayCardContainerWidth !== undefined) {
         currentTimeLineWidth = {width: props.dayCardContainerWidth * 7 + "px"};
     }
     return (

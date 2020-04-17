@@ -40,10 +40,10 @@ export default class App extends React.Component {
       },
       {
         id: 3,
-        classDate: 1585105200000,
+        classDate: 1587006000000,
         dayOfWeek: "Wednesday",
         classTime: { hour: 21, minutes: 0 },
-        duration: "60min",
+        duration: "90min",
         classTitle: "Super Yoga",
         instructor: "Kasturi Manjari",
         location: "Cascais, PT",
@@ -56,9 +56,9 @@ export default class App extends React.Component {
         <div className="App">
           <Agenda
               calendarViewType={"FullCalendar"}
-              defaultMode={"DayMode"}
+              defaultMode={"WeekMode"}
               dataToBeRendered={this.state.classes}
-              agendaInitialAvailableHour={8}//or starting row in case of month view
+              agendaInitialAvailableHour={1}//or starting row in case of month view
               agendaLastAvailableHour={22}//or starting row in case of month view
           />
         </div>

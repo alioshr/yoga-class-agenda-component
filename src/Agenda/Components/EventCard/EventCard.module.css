@@ -1,6 +1,5 @@
 .EventCard {
   position: absolute;
-  box-sizing: padding-box;
   top: 180px;
   background-color: #04287f;
   color: white;
@@ -10,5 +9,10 @@
   display: flex;
   align-items: center;
   justify-content: center;
+  flex-direction: column;
   cursor: pointer;
+  opacity: 0.7;
+}
+hr {
+  width: 80%;
 }

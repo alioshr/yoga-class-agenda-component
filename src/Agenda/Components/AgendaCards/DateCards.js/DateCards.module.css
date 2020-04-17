@@ -11,6 +11,7 @@
 }
 
 .Day {
+    cursor: pointer;
     display: inline-block;
     color: #443a3c;
     border-radius: 50%;

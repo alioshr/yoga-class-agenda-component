@@ -17,7 +17,6 @@ export default class Agenda extends React.Component {
     monthGetter: new Date().getMonth(),
     yearGetter: new Date().getFullYear(),
     arrayOfDailyHoursTable: [],
-    backdropIsActive: false,
     dialogBoxData: {
       displayDialogBox: false,
       topPositionFromClassCard: "",
@@ -25,7 +24,6 @@ export default class Agenda extends React.Component {
     },
     layoutWidthDimensions: {
       width: "",
-      dayCardContainerWidth: ""
     }
   };
 
@@ -384,16 +382,6 @@ export default class Agenda extends React.Component {
       return renderMonth;
     }
   };
-  //by clicking inside a event day card activates the backdrop for that day so I can edit the events or ad new ones
-  backdropDisplayHandler = (day) => {
-    this.setState(({ backdropIsActive, dialogBoxData, ...restTop }) => ({
-      backdropIsActive: day,
-      dialogBoxData: {
-        displayDialogBox: false
-      },
-      ...restTop
-    }));
-  };
   //logic to run the dialog box. This box will handle create class, edit class & view full class card
   displayDialogBoxHandler = (
       day,
@@ -401,23 +389,14 @@ export default class Agenda extends React.Component {
       heigthPositionFromClassCard
   ) => {
     let displayDialogBox;
-    let backdropIsActiv;
-
-    if (this.state.dialogBoxData.displayDialogBox !== day && this.state.backdropIsActive !== "cover all") {
-      displayDialogBox = day;
-      backdropIsActiv = "cover all";
-    }
-    if (this.state.dialogBoxData.displayDialogBox === day && this.state.backdropIsActive === "cover all") {
-      displayDialogBox = false;
-      backdropIsActiv = "false";
-    }
-    this.setState(({ dialogBoxData, backdropIsActive, ...restTop }) => ({
+    if (this.state.dialogBoxData.displayDialogBox !== day) displayDialogBox = day;
+    if (this.state.dialogBoxData.displayDialogBox === day) displayDialogBox = false;
+    this.setState(({ dialogBoxData, ...restTop }) => ({
       dialogBoxData: {
-        displayDialogBox: displayDialogBox,
+        displayDialogBox,
         topPositionFromClassCard: topPositionFromClassCard,
         heigthPositionFromClassCard: heigthPositionFromClassCard
       },
-      backdropIsActive: backdropIsActiv,
       ...restTop
     }));
   };
@@ -426,15 +405,6 @@ export default class Agenda extends React.Component {
     this.setState(({ layoutWidthDimensions, ...restTop }) => ({
       layoutWidthDimensions: {
         width: container.offsetWidth,
-      },
-      ...restTop
-    }));
-  };
-
-  callbackDayCardContainerDimensions = container => {
-    this.setState(({ layoutWidthDimensions, ...restTop }) => ({
-      layoutWidthDimensions: {
-        dayCardContainerWidth: container.offsetWidth,
       },
       ...restTop
     }));
@@ -450,20 +420,15 @@ export default class Agenda extends React.Component {
         <WeekMode
             appViewMode={this.state.appViewMode}
             arrayOfDailyHoursTable={this.state.arrayOfDailyHoursTable}
-            backdropIsActive={this.state.backdropIsActive}
             newDatesToVerboseHandler={this.newDatesToVerboseHandler}
             displayDialogBoxHandler={this.displayDialogBoxHandler}
-            backdropDisplayHandler={(data) => this.backdropDisplayHandler(data)}
             dialogBoxData={this.state.dialogBoxData}
             agendaInitialAvailableHour={this.props.agendaInitialAvailableHour}
             layoutWidthDimensions={this.state.layoutWidthDimensions}
             agendaLastAvailableHour={this.props.agendaLastAvailableHour}
             dataToBeRendered={this.props.dataToBeRendered}
             currentWeek={this.state.currentWeek}
-            monthGetter={this.state.monthGetter}
-            callbackDayCardContainerDimensions={this.callbackDayCardContainerDimensions}
-            dayCardContainerWidth={this.state.layoutWidthDimensions.dayCardContainerWidth}
-        />
+            monthGetter={this.state.monthGetter}/>
     );
     const calendarMode = (
         //the min width for the calendar mode in curr setup is 590px wide
@@ -478,6 +443,7 @@ export default class Agenda extends React.Component {
     const dayMode = (
         //day mode width is just fine
         <DayMode
+            dialogBoxData={this.state.dialogBoxData}
             appViewMode={this.state.appViewMode}
             arrayOfDailyHoursTable={this.state.arrayOfDailyHoursTable}
             newDatesToVerboseHandler={this.newDatesToVerboseHandler}
@@ -502,6 +468,8 @@ export default class Agenda extends React.Component {
       case("DayMode") :
         viewMode = dayMode;
         break;
+      default:
+        viewMode = null;
     }
     return (
         <Layout
@@ -518,8 +486,7 @@ export default class Agenda extends React.Component {
             currentWeek={this.state.currentWeek}
             monthGetter={this.state.monthGetter}
             currentYear={this.state.yearGetter}
-            currentDay={this.state.currentDay}
-        >
+            currentDay={this.state.currentDay}>
           {viewMode}
         </Layout>
     );

@@ -1,4 +1,4 @@
-import React from "react";
+import React, {Fragment} from "react";
 import classes from "./EventCard.module.css";
 
 export default function ClassCard(props) {
@@ -49,38 +49,29 @@ export default function ClassCard(props) {
     top: calculateCardTopPositioning + "px",
     height: calculateCardWidthPositioning + "px"
   };
-  //If I click on the event card I wanna make it stand out the backdrop
-  props.zIndexIFClicked === props.currDay
-      ? Object.assign(cardPosition, { zIndex: "100" })
-      : Object.assign(cardPosition, { zIndex: "97" });
-
   return (
 
-      <div>
+      <Fragment>
         {props.classDate === props.currDay ?
-            <div
-                onClick={() => props.displayFullEventCard(props.currDay, calculateCardTopPositioning, calculateCardWidthPositioning)}
-                className={classes.EventCard}
-                style={cardPosition}
-            >
-              <div>
-                <div>
-                  Start: {padToTwo(props.classTime.hour)}:
-                  {padToTwo(props.classTime.minutes)} - End:{" "}
-                  {classElapseHandler(
-                      props.classDate,
-                      props.classTime.hour,
-                      props.classTime.minutes,
-                      props.classDuration,
-                      "class end"
-                  )}
-                </div>
-                <hr />
-                <div>{props.classTitle} @ {props.classLocation}</div>
-              </div>
+            <div onClick={() => props.displayFullEventCard(props.currDay, calculateCardTopPositioning, calculateCardWidthPositioning)}
+                 className={classes.EventCard}
+                 style={cardPosition}>
+              <Fragment>
+                Start: {padToTwo(props.classTime.hour)}:
+                {padToTwo(props.classTime.minutes)} - End:{" "}
+                {classElapseHandler(
+                    props.classDate,
+                    props.classTime.hour,
+                    props.classTime.minutes,
+                    props.classDuration,
+                    "class end"
+                )}
+              </Fragment>
+              <hr/>
+              <Fragment>{props.classTitle} @ {props.classLocation}</Fragment>
             </div> : null
         }
-      </div>
+      </Fragment>
 
   );
 }

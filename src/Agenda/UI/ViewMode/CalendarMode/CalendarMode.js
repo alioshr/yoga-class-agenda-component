@@ -3,10 +3,14 @@ import MonthDayCard from "./MonthDayCard/MonthDayCard";
 import DateCards from "../../../Components/AgendaCards/DateCards.js/DateCards";
 
 export default function CalendarMode(props) {
+    const testingLiftedDate = childDate => {
+        console.log("clicked Date",childDate)
+    }
     return (
         <div style={{display: "flex", flexDirection: "row", width: "100%"}}>
             {[1585450800000, 1585537200000, 1585623600000, 1585710000000, 1585796400000, 1585882800000, 1585969200000].map((day, dayIndex) =>
                 <MonthDayCard
+                    appViewMode={props.appViewMode}
                     calendarViewType={props.calendarViewType}
                     key={day}
                     newDatesToVerboseHandler={props.newDatesToVerboseHandler}
@@ -17,6 +21,7 @@ export default function CalendarMode(props) {
                         .filter(date => new Date(date).getDay() === new Date(day).getDay())
                         .map((date, innerDateIndex) =>
                             <DateCards today={date}
+                                       liftClickedDate={testingLiftedDate}
                                        currentDay={props.currentDay}
                                        key={date}
                                        monthGetter={props.monthGetter}

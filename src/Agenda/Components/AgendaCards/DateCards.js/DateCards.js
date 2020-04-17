@@ -18,9 +18,8 @@ export default function DateCards(props) {
     if(props.calendarViewType === "SimpleCalendar" && dayOfTheCalendarEqualsCurrDayOfDayMode && dayOfTheCalendarEqualsToday) {
         todayStyle = { backgroundColor: "inherit", color: "#f56157" };
     }
-        if (props.calendarViewType !== "SimpleCalendar" && dayOfTheCalendarEqualsToday) {
-            todayStyle = { backgroundColor: "#f56157", color: "white" };
-        }
+        if (props.calendarViewType !== "SimpleCalendar" && dayOfTheCalendarEqualsToday) todayStyle = { backgroundColor: "#f56157", color: "white" };
+
 
 
     const currentMonthDateDifferentFromCurrentMonth = new Date(props.today).getMonth() !== props.monthGetter;
@@ -82,7 +81,9 @@ export default function DateCards(props) {
                     )
                 }}
             </Transition>
-            <div className={classes.Day} style={Object.assign(nonMonthDates,todayStyle, fullCalendarInnerStyle)}>
+            <div className={classes.Day}
+                 style={Object.assign(nonMonthDates,todayStyle, fullCalendarInnerStyle)}
+            onClick={() => props.appViewMode === 'CalendarMode' ? props.liftClickedDate(props.today) : null}>
                 {new Date(props.today).getDate()}
             </div>
         </div>

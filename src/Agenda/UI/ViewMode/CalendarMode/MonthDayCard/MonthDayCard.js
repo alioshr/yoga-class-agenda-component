@@ -6,7 +6,7 @@ import DayOfTheWeekCard from "../../../../Components/AgendaCards/DayOfTheWeekCar
 export default function MonthCard (props) {
     let dayHeaderWrapper = {};
     let dayCardStyle = {};
-    if(props.calendarViewType === "FullCalendar") {
+    if(props.calendarViewType === "FullCalendar" && props.appViewMode === "CalendarMode") {
         dayHeaderWrapper = {zIndex: 0, fontSize: "1.5rem", justifyContent: "flex-end", alignItems: "flex-end", height: "auto"}
         dayCardStyle = {color: "black", margin: "1px", fontSize: "1.5rem"}
     }

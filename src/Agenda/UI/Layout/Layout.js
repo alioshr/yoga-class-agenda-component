@@ -51,12 +51,15 @@ export default class Layout extends React.Component {
                                <RightArrow appNavigationHandler={this.props.appNavigationHandler}/>
                             </div>
                         </div>
-                        <AgendaTitles newDatesToVerboseHandler={this.props.newDatesToVerboseHandler}
-                                      currentMonth={this.props.currentMonth}
-                                      currentYear={this.props.currentYear}
-                                      currentDay={this.props.currentDay}
-                                      appViewMode={"DayOfTheWeek"}
-                                      calendarViewType={this.props.calendarViewType}/>
+                        {this.props.appViewMode === "DayMode" ?
+                            <AgendaTitles newDatesToVerboseHandler={this.props.newDatesToVerboseHandler}
+                                          monthGetter={this.props.monthGetter}
+                                          currentMonth={this.props.currentMonth}
+                                          currentYear={this.props.currentYear}
+                                          currentDay={this.props.currentDay}
+                                          appViewMode={this.props.appViewMode}
+                                          calendarViewType={this.props.calendarViewType}
+                                          displayDayOfTheWeek={true}/> : null}
                         <div className={classes.AgendaInnerStructure}
                              ref={el => this.render((this.container = el))}>
                             {this.props.children}
@@ -83,6 +86,9 @@ export default class Layout extends React.Component {
                         </div>
                     </div>
                 );
+                break;
+            default :
+                calendarViewType = null;
         }
         return calendarViewType
     }
