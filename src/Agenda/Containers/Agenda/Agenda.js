@@ -456,7 +456,8 @@ export default class Agenda extends React.Component {
             monthGetter={this.state.monthGetter}
             currentWeek={this.state.currentWeek}
             appNavigationHandler={this.appNavigationHandler}
-            calendarViewType={this.props.calendarViewType}/>
+            calendarViewType={this.props.calendarViewType}
+            takeMeToToday={this.takeMeToToday}/>
     );
     switch (this.state.appViewMode) {
       case('WeekMode') :

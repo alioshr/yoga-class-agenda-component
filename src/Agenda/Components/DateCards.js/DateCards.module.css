@@ -1,0 +1,21 @@
+.DateWrapper {
+    display: flex;
+    justify-content: center;
+    width: 100%;
+    /*got to work on this to make it responsive*/
+   height: auto;
+    margin: 0;
+    padding: 0;
+    position: relative;
+    box-sizing: border-box;
+}
+
+.Day {
+    cursor: pointer;
+    display: inline-block;
+    color: #443a3c;
+    border-radius: 50%;
+    padding: 10px;
+    font-size: 30px;
+    margin: 0;
+}

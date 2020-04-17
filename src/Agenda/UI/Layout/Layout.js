@@ -32,28 +32,20 @@ export default class Layout extends React.Component {
                                     monthMode={this.props.monthMode}
                                     dayMode={this.props.dayMode}/>
                             </div>
-                            <div className={classes.SecondRow}>
-                                <AgendaTitles newDatesToVerboseHandler={this.props.newDatesToVerboseHandler}
-                                              monthGetter={this.props.monthGetter}
-                                              currentYear={this.props.currentYear}
-                                              currentDay={this.props.currentDay}
-                                              appViewMode={this.props.appViewMode}
-                                              calendarViewType={this.props.calendarViewType}/>
-                                <div className={classes.ControlsDisplay}>
-                                    <LeftArrow appNavigationHandler={this.props.appNavigationHandler}/>
-                                    <TakeMeHome takeMeToToday={this.props.takeMeToToday}/>
-                                    <RightArrow appNavigationHandler={this.props.appNavigationHandler}/>
-                                </div>
-                            </div>
-                            {this.props.appViewMode === "DayMode" ?
-                                <AgendaTitles newDatesToVerboseHandler={this.props.newDatesToVerboseHandler}
-                                              monthGetter={this.props.monthGetter}
-                                              currentMonth={this.props.currentMonth}
-                                              currentYear={this.props.currentYear}
-                                              currentDay={this.props.currentDay}
-                                              appViewMode={this.props.appViewMode}
-                                              calendarViewType={this.props.calendarViewType}
-                                              displayDayOfTheWeek={true}/> : null}
+                            {this.props.appViewMode !== "DayMode" ?
+                                <div className={classes.SecondRow}>
+                                    <AgendaTitles newDatesToVerboseHandler={this.props.newDatesToVerboseHandler}
+                                                  monthGetter={this.props.monthGetter}
+                                                  currentYear={this.props.currentYear}
+                                                  currentDay={this.props.currentDay}
+                                                  appViewMode={this.props.appViewMode}
+                                                  calendarViewType={this.props.calendarViewType}/>
+                                    <div className={classes.ControlsDisplay}>
+                                        <LeftArrow appNavigationHandler={this.props.appNavigationHandler}/>
+                                        <TakeMeHome takeMeToToday={this.props.takeMeToToday}/>
+                                        <RightArrow appNavigationHandler={this.props.appNavigationHandler}/>
+                                    </div>
+                                </div> : null}
                         </div>
                         <div className={classes.AgendaInnerStructure}
                              ref={el => this.render((this.container = el))}>

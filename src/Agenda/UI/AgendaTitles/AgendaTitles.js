@@ -19,7 +19,7 @@ export default function AgendaTitles(props) {
     }
     let style;
     if(props.displayDayOfTheWeek && props.currentDay !== '') {
-        style = {fontSize: "1.8rem", marginBottom: "10px"};
+        style = {fontSize: "1.8rem", marginBottom: "10px", zIndex: '999'};
     }
     if(props.appViewMode === "CalendarMode" && props.calendarViewType === 'SimpleCalendar') {
         style = {textAlign: "center"}

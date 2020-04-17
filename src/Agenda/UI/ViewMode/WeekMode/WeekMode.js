@@ -5,8 +5,8 @@ import EventCard from "../../../Components/EventCard/EventCard";
 import EventDialogBox from "../../EventDialogBox/EventDialogBox";
 import FullEventCard from "../../../Components/EventCard/FullEventCard/FullEventCard";
 import Transition from "react-transition-group/cjs/Transition";
-import DayOfTheWeekCard from "../../../Components/AgendaCards/DayOfTheWeekCard/DayOfTheWeekCard";
-import DateCards from "../../../Components/AgendaCards/DateCards.js/DateCards";
+import DayOfTheWeekCard from "../../../Components/DayOfTheWeekCard/DayOfTheWeekCard";
+import DateCards from "../../../Components/DateCards.js/DateCards";
 import classes from './WeekMode.module.css'
 
 
