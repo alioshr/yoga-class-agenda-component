@@ -3,9 +3,6 @@ import DateCards from "../../../Components/DateCards.js/DateCards";
 import DayOfTheWeekCard from "../../../Components/DayOfTheWeekCard/DayOfTheWeekCard";
 
 export default function CalendarMode(props) {
-    const testingLiftedDate = childDate => {
-        console.log("clicked Date",childDate)
-    }
     //day card style will be 1rem when in dayCard
     let dayCardStyle = {fontSize: "1rem"}
     const smallCalendarOnDayMode = {fontSize: "1rem"};
@@ -27,7 +24,7 @@ export default function CalendarMode(props) {
                         .filter(date => new Date(date).getDay() === new Date(day).getDay())
                         .map((date, innerDateIndex) =>
                             <DateCards today={date}
-                                       liftClickedDate={testingLiftedDate}
+                                       goToClickedDate={props.goToClickedDate}
                                        currentDay={props.currentDay}
                                        key={date}
                                        monthGetter={props.monthGetter}

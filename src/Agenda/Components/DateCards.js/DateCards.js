@@ -80,7 +80,7 @@ export default function DateCards(props) {
             </Transition>
             <div className={classes.Day}
                  style={Object.assign(nonMonthDates,todayStyle, fullCalendarInnerStyle, props.smallCalendarOnDayMode)}
-                 onClick={() => props.appViewMode === 'CalendarMode' ? props.liftClickedDate(props.today) : null}>
+                 onClick={() => props.today >= new Date().setHours(0,0,0,0) ? props.goToClickedDate(props.today) : null}>
                 {new Date(props.today).getDate()}
             </div>
         </div>

@@ -293,11 +293,15 @@ export default class Agenda extends React.Component {
   };
 
   takeMeToToday = () => {
-      this.setState(({yearGetter, monthGetter, currWeekIndex, currentDayIndex, ...restTop}) => ({
+
+
+      this.setState(({yearGetter, monthGetter, currWeekIndex, currentDayIndex, prevWeekLastDayIndex, prevMonthLastWeekIndex,...restTop}) => ({
         yearGetter : new Date().getFullYear(),
         monthGetter: new Date().getMonth(),
         currWeekIndex: 'initial',
         currentDayIndex: 'initial',
+        prevWeekLastDayIndex: [],
+        prevMonthLastWeekIndex: [],
         ...restTop
       }), () => {
         this.calendarLogicHandler();
@@ -413,7 +417,53 @@ export default class Agenda extends React.Component {
   viewModeHandler = (appViewMode) => {
     this.setState({appViewMode})
   };
+
+  goToClickedDate = clickedDate => {
+       if(this.state.appViewMode === "WeekMode") {
+         this.setState(({appViewMode, currentDayIndex, ...restTop}) => ({
+           appViewMode: "DayMode",
+           currentDayIndex: this.state.currentWeek.indexOf(clickedDate),
+           ...restTop
+         }), () => this.dayModeLogicHandler())
+       }
+      if(this.state.appViewMode === "CalendarMode" || this.state.appViewMode === "DayMode") {
+        const currDayIndex = this.state.currentMonth
+            .map(week => week.filter(day => new Date(day).getMonth() === this.state.monthGetter))
+            .filter(week => week.includes(clickedDate))
+            .flat().indexOf(clickedDate);
+        const currentWeekIndex = this.state.currentMonth.findIndex(week => week.includes(clickedDate));
+        this.setState(({currWeekIndex, appViewMode, currentDayIndex, ...restTop}) => ({
+          appViewMode: "DayMode",
+          currWeekIndex: currentWeekIndex,
+          currentDayIndex: currDayIndex,
+          ...restTop
+        }), () => {
+          //must check if keeping both logic will work
+          this.weekAgendaLogicHandler();
+          this.dayModeLogicHandler();
+          //**MUST REMEMBER TOMORROW - PREVWEEKLASTDAY IS OVERWRITTING THE AMOUNT OF WEEKS FROM ORIGIN!!!
+          const currentMonthIncludesCurrentDay = this.state.currentMonth
+              .some(week => week.includes(new Date().setHours(0,0,0,0)))
+          const currentMonthCurrentDayWeekIndex = this.state.currentMonth
+              .findIndex(week => week.includes(new Date().setHours(0,0,0,0)));
+          const previousWeekLastDayIndex = this.state.currentMonth
+              .map(week => week.filter(day => new Date(day).getMonth() === this.state.monthGetter).length -1)
+              .slice(currentMonthIncludesCurrentDay ? currentMonthCurrentDayWeekIndex : 0,
+                  this.state.currentMonth.findIndex(week => week.includes(clickedDate)));
+          if(!this.state.currentWeek.includes(clickedDate)) {
+            this.setState(({prevWeekLastDayIndex, ...restTop}) => ({
+              prevWeekLastDayIndex: [...prevWeekLastDayIndex, ...previousWeekLastDayIndex],
+              ...restTop
+            }))
+          }
+        })
+      }
+  }
+
   render() {
+    console.log("week index",this.state.currWeekIndex);
+    console.log("prev last index of week", this.state.prevWeekLastDayIndex)
+    console.log("prev last week of month", this.state.prevMonthLastWeekIndex)
     let viewMode = "";
     const weekMode = (
         //the min width for weekMOde in curr setup is 700px wide
@@ -428,7 +478,8 @@ export default class Agenda extends React.Component {
             agendaLastAvailableHour={this.props.agendaLastAvailableHour}
             dataToBeRendered={this.props.dataToBeRendered}
             currentWeek={this.state.currentWeek}
-            monthGetter={this.state.monthGetter}/>
+            monthGetter={this.state.monthGetter}
+            goToClickedDate={this.goToClickedDate}/>
     );
     const calendarMode = (
         //the min width for the calendar mode in curr setup is 590px wide
@@ -438,7 +489,8 @@ export default class Agenda extends React.Component {
             monthGetter={this.state.monthGetter}
             currentMonth={this.state.currentMonth}
             currentWeek={this.state.currentWeek}
-            newDatesToVerboseHandler={this.newDatesToVerboseHandler}/>
+            newDatesToVerboseHandler={this.newDatesToVerboseHandler}
+            goToClickedDate={this.goToClickedDate}/>
     );
     const dayMode = (
         //day mode width is just fine
@@ -457,7 +509,8 @@ export default class Agenda extends React.Component {
             currentWeek={this.state.currentWeek}
             appNavigationHandler={this.appNavigationHandler}
             calendarViewType={this.props.calendarViewType}
-            takeMeToToday={this.takeMeToToday}/>
+            takeMeToToday={this.takeMeToToday}
+            goToClickedDate={this.goToClickedDate}/>
     );
     switch (this.state.appViewMode) {
       case('WeekMode') :

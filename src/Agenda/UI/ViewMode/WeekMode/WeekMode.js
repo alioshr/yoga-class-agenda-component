@@ -43,6 +43,7 @@ export default function WeekMode(props) {
                             newDatesToVerboseHandler={props.newDatesToVerboseHandler}
                             today={day}/>
                         <DateCards today={day}
+                                   goToClickedDate={props.goToClickedDate}
                                    monthGetter={props.monthGetter}
                                    newDatesToVerboseHandler={props.newDatesToVerboseHandler}/>
                         </div>

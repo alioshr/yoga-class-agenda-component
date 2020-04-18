@@ -85,7 +85,8 @@ export default function DayMode(props) {
                         monthGetter={props.monthGetter}
                         currentMonth={props.currentMonth}
                         currentWeek={props.currentWeek}
-                        newDatesToVerboseHandler={props.newDatesToVerboseHandler}/>
+                        newDatesToVerboseHandler={props.newDatesToVerboseHandler}
+                        goToClickedDate={props.goToClickedDate}/>
                 </div>
             </div>
         </div>
