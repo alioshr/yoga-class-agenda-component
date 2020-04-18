@@ -110,14 +110,15 @@ export default class Agenda extends React.Component {
     this.setState({currentWeek});
   };
 
-  weekAgendaNavigationHandler = modal => {
+  weekAgendaNavigationHandler = (modal, currentDayIndexFromGoToClickedDate) => {
     //init the current week index
     if (modal === "increment") {
       this.setState(({prevWeekLastDayIndex, ...restTop}) => ({
         prevWeekLastDayIndex: [...prevWeekLastDayIndex, this.state.currentWeek.filter(day =>
             new Date(day).getMonth() === this.state.monthGetter).length-1],
         ...restTop
-      }),() => this.setState({currentDayIndex: 0}));
+      }),() => this.setState({currentDayIndex: currentDayIndexFromGoToClickedDate !== undefined ?
+            currentDayIndexFromGoToClickedDate : 0}));
       //if the number of weeks incremented does not exceed the amount of weeks in the month
       if(this.state.currWeekIndex < this.state.currentMonth.length -1) {
         this.setState(
@@ -137,10 +138,16 @@ export default class Agenda extends React.Component {
 
     if (modal === "decrement" && !this.state.currentWeek.includes(new Date().setHours(0,0,0,0))) {
       if(this.state.appViewMode === "WeekMode") {
-        this.setState({currentDayIndex: 0})
+        this.setState({currentDayIndex: 0}, () => {
+          this.setState(({prevWeekLastDayIndex, ...restTop}) => ({
+            prevWeekLastDayIndex: [...prevWeekLastDayIndex.slice(0, -1)],
+            ...restTop
+          }))
+        })
       }
       if(this.state.appViewMode === "DayMode") {
-        this.setState({currentDayIndex: this.state.prevWeekLastDayIndex[this.state.prevWeekLastDayIndex.length -1]}, () => {
+        this.setState({currentDayIndex: currentDayIndexFromGoToClickedDate !== undefined ?
+              currentDayIndexFromGoToClickedDate : this.state.prevWeekLastDayIndex[this.state.prevWeekLastDayIndex.length -1]}, () => {
           this.setState(({prevWeekLastDayIndex, ...restTop}) => ({
             prevWeekLastDayIndex: [...prevWeekLastDayIndex.slice(0, -1)],
             ...restTop
@@ -188,16 +195,16 @@ export default class Agenda extends React.Component {
     this.setState({currentMonth});
   };
 
-  calendarNavigationHandler = modal => {
+  calendarNavigationHandler = (modal, currentDayIndexFromGoToClickedDate, accessingCalendarModeFromDayModeFullCalendar) => {
     if(modal === "increment") {
-      if(this.state.appViewMode === "CalendarMode") {
+      if(this.state.appViewMode === "CalendarMode" || accessingCalendarModeFromDayModeFullCalendar) {
         //increment all last index positions for the remaining weeks of a month to serve the DayMode index positioning
         const currentWeekIndex = this.state.currWeekIndex;
         this.setState(({prevWeekLastDayIndex, ...restTop}) => ({
           prevWeekLastDayIndex: [
-              ...prevWeekLastDayIndex,
+            ...prevWeekLastDayIndex,
             ...this.state.currentMonth
-              .map(week => week.filter(day => new Date(day).getMonth() === this.state.monthGetter).length -1)
+                .map(week => week.filter(day => new Date(day).getMonth() === this.state.monthGetter).length -1)
                 .slice(currentWeekIndex)
           ],
           ...restTop
@@ -205,14 +212,15 @@ export default class Agenda extends React.Component {
       }
       //saving the max index of curr month before incrementing
       this.setState(({prevMonthLastWeekIndex, ...restTop}) => ({
-        prevMonthLastWeekIndex: [...prevMonthLastWeekIndex, this.state.currentMonth.length -1],
-        ...restTop
-      }), () =>
-        this.setState(({currWeekIndex, currentDayIndex, ...restTop}) => ({
-          currentDayIndex: 0,
-          currWeekIndex: 0,
-          ...restTop
-        }))
+            prevMonthLastWeekIndex: [...prevMonthLastWeekIndex, this.state.currentMonth.length -1],
+            ...restTop
+          }), () =>
+              this.setState(({currWeekIndex, currentDayIndex, ...restTop}) => ({
+                currentDayIndex: currentDayIndexFromGoToClickedDate !== undefined ?
+                    currentDayIndexFromGoToClickedDate : 0,
+                currWeekIndex: 0,
+                ...restTop
+              }))
       );
       if(this.state.monthGetter < 11) { //just add months, before changing the year
         this.setState(({monthGetter, ...restTop}) => ({
@@ -229,7 +237,7 @@ export default class Agenda extends React.Component {
       }
     }
     if (modal === "decrement") {
-      if(this.state.appViewMode === "WeekMode" || this.state.appViewMode === "DayMode") {
+      if((this.state.appViewMode === "WeekMode" || this.state.appViewMode === "DayMode") && accessingCalendarModeFromDayModeFullCalendar === undefined ) {
         //saving the max index of curr month before incrementing
         this.setState({currWeekIndex: this.state.prevMonthLastWeekIndex[this.state.prevMonthLastWeekIndex.length -1]}, () => {
           this.setState(({prevMonthLastWeekIndex, ...restTop}) => ({
@@ -238,21 +246,27 @@ export default class Agenda extends React.Component {
           }));
         });
       }
-      if(this.state.appViewMode === "CalendarMode") {
+      if(this.state.appViewMode === "CalendarMode" || accessingCalendarModeFromDayModeFullCalendar) {
         // removing all the week's indexes saved in this.state.prevMonthLastWeekIndex
         // that will come after the first week of the month being rendered upon decrementing
         // so If navigating backwards in DayMode, It will have the proper reference of the last week's index
         const currentWeekIndex = this.state.currWeekIndex;
         const prevMonthLastWeekIndex = this.state.prevMonthLastWeekIndex[this.state.prevMonthLastWeekIndex.length -1];
         const prevWeekLastDayIndexLength = this.state.prevWeekLastDayIndex.length -1;
+        const willDecrementToCurrentMonth = this.state.monthGetter - new Date().getMonth() === 1;
         this.setState(({prevWeekLastDayIndex, ...restTop}) => ({
-          prevWeekLastDayIndex: [...prevWeekLastDayIndex.slice(0, prevWeekLastDayIndexLength - currentWeekIndex - prevMonthLastWeekIndex)],
+          prevWeekLastDayIndex: willDecrementToCurrentMonth && !accessingCalendarModeFromDayModeFullCalendar ? [] :
+              accessingCalendarModeFromDayModeFullCalendar ?
+                  [...prevWeekLastDayIndex.slice(0, -1)] :
+                  [...prevWeekLastDayIndex.slice(0, prevWeekLastDayIndexLength - currentWeekIndex - prevMonthLastWeekIndex)],
           ...restTop
         }));
         //saving the max index of curr month before incrementing
         this.setState(({currWeekIndex, currentDayIndex, ...restTop}) => ({
-          currentDayIndex: 0,
-          currWeekIndex: 0,
+          currentDayIndex: currentDayIndexFromGoToClickedDate !== undefined ?
+              currentDayIndexFromGoToClickedDate : 0,
+          currWeekIndex: currentDayIndexFromGoToClickedDate !== undefined ?
+              this.state.prevMonthLastWeekIndex[this.state.prevMonthLastWeekIndex.length -1] : 0,
           ...restTop
         }), () => {
           this.setState(({prevMonthLastWeekIndex, ...restTop}) => ({
@@ -295,17 +309,17 @@ export default class Agenda extends React.Component {
   takeMeToToday = () => {
 
 
-      this.setState(({yearGetter, monthGetter, currWeekIndex, currentDayIndex, prevWeekLastDayIndex, prevMonthLastWeekIndex,...restTop}) => ({
-        yearGetter : new Date().getFullYear(),
-        monthGetter: new Date().getMonth(),
-        currWeekIndex: 'initial',
-        currentDayIndex: 'initial',
-        prevWeekLastDayIndex: [],
-        prevMonthLastWeekIndex: [],
-        ...restTop
-      }), () => {
-        this.calendarLogicHandler();
-      })
+    this.setState(({yearGetter, monthGetter, currWeekIndex, currentDayIndex, prevWeekLastDayIndex, prevMonthLastWeekIndex,...restTop}) => ({
+      yearGetter : new Date().getFullYear(),
+      monthGetter: new Date().getMonth(),
+      currWeekIndex: 'initial',
+      currentDayIndex: 'initial',
+      prevWeekLastDayIndex: [],
+      prevMonthLastWeekIndex: [],
+      ...restTop
+    }), () => {
+      this.calendarLogicHandler();
+    })
   };
 
   //this function does the verbose work for my days to appear nicely
@@ -419,51 +433,50 @@ export default class Agenda extends React.Component {
   };
 
   goToClickedDate = clickedDate => {
-       if(this.state.appViewMode === "WeekMode") {
-         this.setState(({appViewMode, currentDayIndex, ...restTop}) => ({
-           appViewMode: "DayMode",
-           currentDayIndex: this.state.currentWeek.indexOf(clickedDate),
-           ...restTop
-         }), () => this.dayModeLogicHandler())
-       }
-      if(this.state.appViewMode === "CalendarMode" || this.state.appViewMode === "DayMode") {
-        const currDayIndex = this.state.currentMonth
+    if(this.state.appViewMode === "WeekMode") {
+      this.setState(({appViewMode, currentDayIndex, ...restTop}) => ({
+        appViewMode: "DayMode",
+        currentDayIndex: this.state.currentWeek.indexOf(clickedDate),
+        ...restTop
+      }), () => this.dayModeLogicHandler())
+    }
+    if(this.state.appViewMode === "CalendarMode" || this.state.appViewMode === "DayMode") {
+      const clickedDayMonth = new Date(clickedDate).getMonth();
+      const clickedWeekIndex = this.state.currentMonth.findIndex(week => week.includes(clickedDate));
+      if(clickedDayMonth === this.state.monthGetter) {
+        let clickedDayIndex = this.state.currentMonth
             .map(week => week.filter(day => new Date(day).getMonth() === this.state.monthGetter))
             .filter(week => week.includes(clickedDate))
             .flat().indexOf(clickedDate);
-        const currentWeekIndex = this.state.currentMonth.findIndex(week => week.includes(clickedDate));
-        this.setState(({currWeekIndex, appViewMode, currentDayIndex, ...restTop}) => ({
-          appViewMode: "DayMode",
-          currWeekIndex: currentWeekIndex,
-          currentDayIndex: currDayIndex,
-          ...restTop
-        }), () => {
-          //must check if keeping both logic will work
-          this.weekAgendaLogicHandler();
-          this.dayModeLogicHandler();
-          //**MUST REMEMBER TOMORROW - PREVWEEKLASTDAY IS OVERWRITTING THE AMOUNT OF WEEKS FROM ORIGIN!!!
-          const currentMonthIncludesCurrentDay = this.state.currentMonth
-              .some(week => week.includes(new Date().setHours(0,0,0,0)))
-          const currentMonthCurrentDayWeekIndex = this.state.currentMonth
-              .findIndex(week => week.includes(new Date().setHours(0,0,0,0)));
-          const previousWeekLastDayIndex = this.state.currentMonth
-              .map(week => week.filter(day => new Date(day).getMonth() === this.state.monthGetter).length -1)
-              .slice(currentMonthIncludesCurrentDay ? currentMonthCurrentDayWeekIndex : 0,
-                  this.state.currentMonth.findIndex(week => week.includes(clickedDate)));
-          if(!this.state.currentWeek.includes(clickedDate)) {
-            this.setState(({prevWeekLastDayIndex, ...restTop}) => ({
-              prevWeekLastDayIndex: [...prevWeekLastDayIndex, ...previousWeekLastDayIndex],
-              ...restTop
-            }))
+        if(clickedWeekIndex > this.state.currWeekIndex) {
+          for(let i = this.state.currWeekIndex; i < clickedWeekIndex; i++) {
+            this.weekAgendaNavigationHandler("increment", clickedDayIndex);
           }
-        })
+        }
+        if(clickedWeekIndex < this.state.currWeekIndex) {
+          for(let i = this.state.currWeekIndex; i > clickedWeekIndex; i--) {
+            this.weekAgendaNavigationHandler("decrement", clickedDayIndex);
+          }
+        }
       }
+      //day index when the month is different from the actual
+      let clickedDayIndex = this.state.currentMonth
+          .map(week => week.filter(day => new Date(day).getMonth() !== this.state.monthGetter))
+          .filter(week => week.includes(clickedDate))
+          .flat().indexOf(clickedDate);
+      if(clickedDayMonth > this.state.monthGetter) {
+        console.log("month will increase")
+        this.calendarNavigationHandler("increment", clickedDayIndex, true)
+      }
+      if(clickedDayMonth < this.state.monthGetter) {
+        this.calendarNavigationHandler("decrement", clickedDayIndex, true)
+      }
+    }
   }
 
   render() {
-    console.log("week index",this.state.currWeekIndex);
-    console.log("prev last index of week", this.state.prevWeekLastDayIndex)
-    console.log("prev last week of month", this.state.prevMonthLastWeekIndex)
+    console.log('prev week last day index', this.state.prevWeekLastDayIndex);
+    console.log("curr day index", this.state.currentDayIndex);
     let viewMode = "";
     const weekMode = (
         //the min width for weekMOde in curr setup is 700px wide
