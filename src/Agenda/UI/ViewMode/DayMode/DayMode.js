@@ -76,7 +76,7 @@ export default function DayMode(props) {
                         </div>
                         <CalendarMode
                             calendarOuterStyle={{marginTop: 0, height: "auto", width: "auto"}}
-                            calendarInnerStyle={{width: "auto"}}
+                            calendarInnerStyle={{maxWidth: "40px"}}
                             currentDay={props.currentDay}
                             appViewMode={"CalendarMode"}
                             calendarViewType={"SimpleCalendar"}

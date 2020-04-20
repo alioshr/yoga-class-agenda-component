@@ -15,13 +15,15 @@ export default function CalendarMode(props) {
         <div className={classes.CalendarWrapper} style={props.calendarOuterStyle}>
             {[1585450800000, 1585537200000, 1585623600000, 1585710000000, 1585796400000, 1585882800000, 1585969200000].map((day, dayIndex) =>
                 <div className={classes.CalendarInnerWrapper}
-                    style={props.calendarInnerStyle}
+                     style={props.calendarInnerStyle}
                      key={day}>
-                    <DayOfTheWeekCard
-                        style={dayOfTheWeekCardStyle}
-                        newDatesToVerboseHandler={props.newDatesToVerboseHandler}
-                        today={day}/>
-                    <Fragment>
+                    <div style={{display: "flex", justifyContent: "center", alignItems: "center"}}>
+                        <DayOfTheWeekCard
+                            style={dayOfTheWeekCardStyle}
+                            newDatesToVerboseHandler={props.newDatesToVerboseHandler}
+                            today={day}/>
+                    </div>
+                    <div style={{display: 'flex', justifyContent: "center", alignItems:"center", flexDirection: 'column', width: "auto"}}>
                         {props.currentMonth
                             .flat()
                             .filter(date => new Date(date).getDay() === new Date(day).getDay())
@@ -38,7 +40,7 @@ export default function CalendarMode(props) {
                                            appViewMode={props.appViewMode}
                                            smallCalendarOnDayMode={smallCalendarOnDayMode}/>
                             )}
-                    </Fragment>
+                    </div>
                 </div>
             )}
         </div>

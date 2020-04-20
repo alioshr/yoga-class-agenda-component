@@ -2,8 +2,7 @@
     display: flex;
     justify-content: center;
     width: 100%;
-    /*got to work on this to make it responsive*/
-   height: auto;
+    height: auto;
     margin: 0;
     padding: 0;
     position: relative;
