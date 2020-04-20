@@ -3,8 +3,9 @@
     width: 100%;
     font-size: 40px;
     color: #443a3c;
-    position: sticky;
     background-color: white;
     z-index: 1000;
     padding: 0;
+    position: sticky;
+    top: 20px;
 }

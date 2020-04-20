@@ -1,18 +1,22 @@
 .OutStructure {
   height: 100%;
   width: 100%;
+  position: relative;
 }
 
 .HeaderWrapper {
-  position: sticky;
-  top: 0;
   z-index: 1000;
   background-color: white;
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  width: 100%;
 }
 
 .FirstRow{
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(auto, 1fr));
+  grid-template-columns: repeat(3, minmax(auto, 1fr));
 }
 
 .SecondRow {
@@ -39,4 +43,5 @@ button {
   display: flex;
   flex-direction: row;
   width: auto;
+  top: 100px
 }

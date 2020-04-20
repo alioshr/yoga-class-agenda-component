@@ -3,6 +3,7 @@ import Layout from "../../UI/Layout/Layout";
 import WeekMode from "../../UI/ViewMode/WeekMode/WeekMode";
 import CalendarMode from "../../UI/ViewMode/CalendarMode/CalendarMode";
 import DayMode from "../../UI/ViewMode/DayMode/DayMode";
+import FullScreen from "react-full-screen";
 
 export default class Agenda extends React.Component {
   state = {
@@ -24,7 +25,8 @@ export default class Agenda extends React.Component {
     },
     layoutWidthDimensions: {
       width: "",
-    }
+    },
+    fullScreen: false
   };
 
   componentDidMount(){
@@ -257,7 +259,7 @@ export default class Agenda extends React.Component {
         this.setState(({prevWeekLastDayIndex, ...restTop}) => ({
           prevWeekLastDayIndex: willDecrementToCurrentMonth && !accessingCalendarModeFromDayModeFullCalendar ? [] :
               accessingCalendarModeFromDayModeFullCalendar ?
-                  [...prevWeekLastDayIndex.slice(0, -1)] :
+                  [...prevWeekLastDayIndex.slice(0, -this.state.currWeekIndex -1)] :
                   [...prevWeekLastDayIndex.slice(0, prevWeekLastDayIndexLength - currentWeekIndex - prevMonthLastWeekIndex)],
           ...restTop
         }));
@@ -433,17 +435,30 @@ export default class Agenda extends React.Component {
   };
 
   goToClickedDate = clickedDate => {
-    if(this.state.appViewMode === "WeekMode") {
+    this.setState({appViewMode: this.state.appViewMode === "DayMode" ? this.state.appViewMode : "DayMode"})
+    //day index when the month is different from the actual
+    const clickedDayMonth = new Date(clickedDate).getMonth();
+    const clickedWeekIndex = this.state.currentMonth.findIndex(week => week.includes(clickedDate));
+    if(clickedDayMonth !== this.state.monthGetter) {
+      let clickedDayIndex = this.state.currentMonth
+          .map(week => week.filter(day => new Date(day).getMonth() !== this.state.monthGetter))
+          .filter(week => week.includes(clickedDate))
+          .flat().indexOf(clickedDate);
+      if(clickedDayMonth > this.state.monthGetter) {
+        this.calendarNavigationHandler("increment", clickedDayIndex, true)
+      }
+      if(clickedDayMonth < this.state.monthGetter) {
+        this.calendarNavigationHandler("decrement", clickedDayIndex, true)
+      }
+    }
+    if((this.state.appViewMode === "WeekMode" && clickedDayMonth === this.state.monthGetter) ||
+        (this.state.appViewMode === 'DayMode' && clickedWeekIndex === this.state.currWeekIndex)) {
       this.setState(({appViewMode, currentDayIndex, ...restTop}) => ({
-        appViewMode: "DayMode",
         currentDayIndex: this.state.currentWeek.indexOf(clickedDate),
         ...restTop
       }), () => this.dayModeLogicHandler())
     }
-    if(this.state.appViewMode === "CalendarMode" || this.state.appViewMode === "DayMode") {
-      const clickedDayMonth = new Date(clickedDate).getMonth();
-      const clickedWeekIndex = this.state.currentMonth.findIndex(week => week.includes(clickedDate));
-      if(clickedDayMonth === this.state.monthGetter) {
+    if((this.state.appViewMode === "CalendarMode" || this.state.appViewMode === "DayMode") && clickedDayMonth === this.state.monthGetter) {
         let clickedDayIndex = this.state.currentMonth
             .map(week => week.filter(day => new Date(day).getMonth() === this.state.monthGetter))
             .filter(week => week.includes(clickedDate))
@@ -458,30 +473,20 @@ export default class Agenda extends React.Component {
             this.weekAgendaNavigationHandler("decrement", clickedDayIndex);
           }
         }
-      }
-      //day index when the month is different from the actual
-      let clickedDayIndex = this.state.currentMonth
-          .map(week => week.filter(day => new Date(day).getMonth() !== this.state.monthGetter))
-          .filter(week => week.includes(clickedDate))
-          .flat().indexOf(clickedDate);
-      if(clickedDayMonth > this.state.monthGetter) {
-        console.log("month will increase")
-        this.calendarNavigationHandler("increment", clickedDayIndex, true)
-      }
-      if(clickedDayMonth < this.state.monthGetter) {
-        this.calendarNavigationHandler("decrement", clickedDayIndex, true)
-      }
     }
   }
 
+  fullScreenHandler = fullScreen => {
+    this.setState({fullScreen});
+  };
+
   render() {
-    console.log('prev week last day index', this.state.prevWeekLastDayIndex);
-    console.log("curr day index", this.state.currentDayIndex);
     let viewMode = "";
     const weekMode = (
         //the min width for weekMOde in curr setup is 700px wide
         <WeekMode
             appViewMode={this.state.appViewMode}
+            calendarViewType={this.props.calendarViewType}
             arrayOfDailyHoursTable={this.state.arrayOfDailyHoursTable}
             newDatesToVerboseHandler={this.newDatesToVerboseHandler}
             displayDialogBoxHandler={this.displayDialogBoxHandler}
@@ -508,6 +513,7 @@ export default class Agenda extends React.Component {
     const dayMode = (
         //day mode width is just fine
         <DayMode
+            fullScreen={this.state.fullScreen}
             dialogBoxData={this.state.dialogBoxData}
             appViewMode={this.state.appViewMode}
             arrayOfDailyHoursTable={this.state.arrayOfDailyHoursTable}
@@ -539,7 +545,10 @@ export default class Agenda extends React.Component {
         viewMode = null;
     }
     return (
+        <FullScreen enabled={this.state.fullScreen}
+        onChange={fullScreen => this.setState({fullScreen})}>
         <Layout
+            callbackFullScreen={this.fullScreenHandler}
             calendarViewType={this.props.calendarViewType}
             defaultMode={this.props.defaultMode}
             takeMeToToday={this.takeMeToToday}
@@ -556,6 +565,7 @@ export default class Agenda extends React.Component {
             currentDay={this.state.currentDay}>
           {viewMode}
         </Layout>
+        </FullScreen>
     );
   }
 }

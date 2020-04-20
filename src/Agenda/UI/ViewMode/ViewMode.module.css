@@ -5,7 +5,7 @@
     border-radius: 5px;
     justify-self: center;
     align-self: center;
-
+    grid-column: 2/3;
 }
 
 .ViewModeItem {

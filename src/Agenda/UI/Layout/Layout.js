@@ -1,10 +1,11 @@
-import React from "react";
+import React, {Fragment} from "react";
 import classes from "./Layout.module.css";
 import ViewMode from "../ViewMode/ViewMode";
 import RightArrow from "../NavigationButtons/RightArrow/RightArrow";
 import LeftArrow from "../NavigationButtons/LeftArrow/LeftArrow";
 import AgendaTitles from "../AgendaTitles/AgendaTitles";
 import TakeMeHome from "../NavigationButtons/TakeMeHome/TakeMeHome";
+import FullScreenButton from "../FullScreenButton/FullScreenButton";
 
 export default class Layout extends React.Component {
     updateDimensions = () => {
@@ -23,14 +24,13 @@ export default class Layout extends React.Component {
         switch (this.props.calendarViewType) {
             case ("FullCalendar") :
                 calendarViewType = (
-                    <div className={classes.OutStructure}>
                         <div className={classes.HeaderWrapper}>
-                            {/*here is display the top title w/ the curr month*/}
                             <div className={classes.FirstRow}>
                                 <ViewMode
                                     weekMode={this.props.weekMode}
                                     monthMode={this.props.monthMode}
                                     dayMode={this.props.dayMode}/>
+                                    <FullScreenButton callbackFullScreen={this.props.callbackFullScreen}/>
                             </div>
                             {this.props.appViewMode !== "DayMode" ?
                                 <div className={classes.SecondRow}>
@@ -47,16 +47,11 @@ export default class Layout extends React.Component {
                                     </div>
                                 </div> : null}
                         </div>
-                        <div className={classes.AgendaInnerStructure}
-                             ref={el => this.render((this.container = el))}>
-                            {this.props.children}
-                        </div>
-                    </div>
                 );
                 break;
             case("SimpleCalendar") :
                 calendarViewType = (
-                    <div className={classes.OutStructure}>
+                   <Fragment>
                         <div className={classes.SecondRow}>
                             <LeftArrow appNavigationHandler={this.props.appNavigationHandler}/>
                             <AgendaTitles newDatesToVerboseHandler={this.props.newDatesToVerboseHandler}
@@ -67,16 +62,22 @@ export default class Layout extends React.Component {
                                           calendarViewType={this.props.calendarViewType}/>
                             <RightArrow appNavigationHandler={this.props.appNavigationHandler}/>
                         </div>
-                        <div className={classes.AgendaInnerStructure}
-                             ref={el => this.render((this.container = el))}>
-                            {this.props.children}
-                        </div>
-                    </div>
+                   </Fragment>
                 );
                 break;
             default :
                 calendarViewType = null;
         }
-        return calendarViewType
+        return (
+            <Fragment>
+                <div className={classes.OutStructure}>
+                {calendarViewType}
+                </div>
+                <div className={classes.AgendaInnerStructure}
+                     ref={el => this.render((this.container = el))}>
+                    {this.props.children}
+                </div>
+            </Fragment>
+        )
     }
 }

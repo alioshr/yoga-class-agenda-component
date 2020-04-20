@@ -4,47 +4,61 @@ import MonthTeller from "../../UI/MonthTeller/MonthTeller";
 import Transition from "react-transition-group/cjs/Transition";
 
 export default function DateCards(props) {
-    //set the animation of the transition which displays the month of dates not related to the curr month
     const [otherMonth, setOtherMonth] = useState(false);
-    //sets the background color of the current day of the month
-    const dayOfTheCalendarEqualsToday = new Date(props.today).getDate() === new Date().getDate() &&
-        new Date(props.today).getMonth() === new Date().getMonth();
-    const dayOfTheCalendarEqualsCurrDayOfDayMode = new Date(props.today).getDate() === new Date(props.currentDay).getDate() &&
-        new Date(props.today).getMonth() === new Date(props.currentDay).getMonth();
-    let todayStyle;
-    if(props.calendarViewType === "SimpleCalendar" && dayOfTheCalendarEqualsCurrDayOfDayMode && !dayOfTheCalendarEqualsToday ) {
-        todayStyle = { backgroundColor: "gray", color: "white" };
-    }
-    if(props.calendarViewType === "SimpleCalendar" && dayOfTheCalendarEqualsCurrDayOfDayMode && dayOfTheCalendarEqualsToday) {
-        todayStyle = { backgroundColor: "inherit", color: "#f56157", fontWeight: "bold" };
-    }
-    if (props.calendarViewType !== "SimpleCalendar" && dayOfTheCalendarEqualsToday) todayStyle = { backgroundColor: "#f56157", color: "white" };
+    const [cursorNotAllowed, setCursorNotAllowed] = useState({})
+
+    const dayOfTheCalendarEqualsToday = props.today === new Date().setHours(0,0,0,0);
+    const dayOfTheCalendarEqualsCurrDayOfDayMode = props.today === props.currentDay;
     const currentMonthDateDifferentFromCurrentMonth = new Date(props.today).getMonth() !== props.monthGetter;
+
     let borderConfig = "1px solid black";
     let fullCalendarStyle = {};
     let fullCalendarInnerStyle = {};
-    let nonMonthDates = {};
-    if(props.calendarViewType === "FullCalendar" && props.appViewMode === "CalendarMode") {
-        fullCalendarInnerStyle = {position: "absolute", right: "5px", top: "5px", fontSize: "17px", padding: "5px"};
-        fullCalendarStyle = {borderRight: borderConfig, borderBottom: borderConfig, height: "100px"};
-        if(props.cardDayIndex === 0) {
-            Object.assign(fullCalendarStyle, {borderLeft: borderConfig});
-        }
-        if(props.cardDatesInnerIndex === 0) {
-            Object.assign(fullCalendarStyle, {borderTop: borderConfig})
-        }
-        if(currentMonthDateDifferentFromCurrentMonth){
-            Object.assign(fullCalendarStyle,{backgroundColor: "#F2F2F2"});
+
+    const mouseOverDisabled = (currentDay) => {
+        if(currentDay < new Date().setHours(0,0,0,0)) {
+            setCursorNotAllowed({cursor: "not-allowed"});
         }
     }
+    if (dayOfTheCalendarEqualsToday) {
+        Object.assign(fullCalendarInnerStyle, { backgroundColor: "#f56157", color: "white"})
+    }
     if(currentMonthDateDifferentFromCurrentMonth){
-        nonMonthDates = {color: 'grey'};
+        Object.assign(fullCalendarInnerStyle,{color: 'grey'});
+    }
+    if(props.appViewMode === "CalendarMode") {
+        if(props.today < new Date().setHours(0,0,0,0)){
+            Object.assign(fullCalendarStyle,{backgroundColor: "#f2f2f2"});
+        }
+        if(props.calendarViewType === "FullCalendar") {
+            fullCalendarStyle = {borderRight: borderConfig, borderBottom: borderConfig, minHeight: "100px"};
+            Object.assign(fullCalendarInnerStyle, {position: "absolute", right: "5px", top: "5px", fontSize: "17px", padding: "5px"});
+            if(props.cardDayIndex === 0) {
+                Object.assign(fullCalendarStyle, {borderLeft: borderConfig});
+            }
+            if(props.cardDatesInnerIndex === 0) {
+                Object.assign(fullCalendarStyle, {borderTop: borderConfig})
+            }
+            if(currentMonthDateDifferentFromCurrentMonth || props.today < new Date().setHours(0,0,0,0)){
+                Object.assign(fullCalendarStyle,{backgroundColor: "#f2f2f2"});
+            }
+        }
+        if(props.calendarViewType === "SimpleCalendar") {
+            if(dayOfTheCalendarEqualsCurrDayOfDayMode && !dayOfTheCalendarEqualsToday ) {
+                Object.assign(fullCalendarInnerStyle,{ backgroundColor: "gray", color: "white" })
+            }
+            if(!dayOfTheCalendarEqualsCurrDayOfDayMode && dayOfTheCalendarEqualsToday) {
+                Object.assign(fullCalendarInnerStyle, { backgroundColor: "inherit", color: "#f56157", fontWeight: "bold" })
+            }
+        }
     }
     return(
         <div className={classes.DateWrapper}
-             style={fullCalendarStyle}
+             style={Object.assign(fullCalendarStyle, cursorNotAllowed)}
              onMouseEnter={() => setOtherMonth(true)}
-             onMouseLeave={() => setOtherMonth(false)}>
+             onMouseLeave={() => setOtherMonth(false)}
+             onClick={() => props.today >= new Date().setHours(0,0,0,0) ? props.goToClickedDate(props.today) : null}
+             onMouseOver={() => mouseOverDisabled(props.today)}>
             <Transition in={otherMonth && currentMonthDateDifferentFromCurrentMonth && props.calendarViewType === "FullCalendar"} timeout={1000}>
                 {state => {
                     let animation = {
@@ -79,8 +93,7 @@ export default function DateCards(props) {
                 }}
             </Transition>
             <div className={classes.Day}
-                 style={Object.assign(nonMonthDates,todayStyle, fullCalendarInnerStyle, props.smallCalendarOnDayMode)}
-                 onClick={() => props.today >= new Date().setHours(0,0,0,0) ? props.goToClickedDate(props.today) : null}>
+                 style={Object.assign(fullCalendarInnerStyle, props.smallCalendarOnDayMode)}>
                 {new Date(props.today).getDate()}
             </div>
         </div>

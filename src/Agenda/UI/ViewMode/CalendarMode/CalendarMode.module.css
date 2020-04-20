@@ -1,0 +1,11 @@
+.CalendarWrapper {
+    display: flex;
+    flex-direction: row;
+    width: 100%;
+    height: 100vh;
+    margin: 80px 10px 0 10px;
+}
+
+.CalendarInnerWrapper {
+    width: 100%;
+}

@@ -10,11 +10,11 @@
   align-items: center;
   justify-content: center;
   flex-direction: column;
-  position: sticky;
-  top: 79px;
-  margin-bottom: 10px;
   background-color: white;
   z-index: 1000;
+  position: sticky;
+  top: 80px;
+  margin-top: 78px;
 }
 
 .DayCard {
@@ -31,4 +31,5 @@
 
 .InnerTableData {
   position: relative;
+  margin-top: 4px;
 }

@@ -8,10 +8,10 @@
     padding: 0;
     position: relative;
     box-sizing: border-box;
+    cursor: pointer;
 }
 
 .Day {
-    cursor: pointer;
     display: inline-block;
     color: #443a3c;
     border-radius: 50%;

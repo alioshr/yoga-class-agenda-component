@@ -1,5 +1,4 @@
 import React, {useLayoutEffect, useRef, useState} from 'react'
-import SideTab from "../../../Components/SideTab/SideTab";
 import TimeTables from "../../../Components/TimeTables/TimeTables";
 import EventCard from "../../../Components/EventCard/EventCard";
 import EventDialogBox from "../../EventDialogBox/EventDialogBox";
@@ -25,19 +24,21 @@ export default function WeekMode(props) {
     }, []);
     return (
         <div className={classes.WeekModeWrapper}>
-            <SideTab>
-                <TimeTables currAgendaData={props.currentWeek}
+            <div style={{display: "flex", flexDirection: "column", position: "relative"}}>
+                <div style={{zIndex: "1000",backgroundColor:"white",position: "sticky", top: "78px", minWidth: "46px", height: "79px", marginTop: "78px" }}/>
+                <TimeTables
+                            style={{ color: "black", border: "none", boxShadow: "none"}}
+                            currAgendaData={props.currentWeek}
                             appViewMode={props.appViewMode}
                             dayCardContainerWidth={dimensions.width}
-                            style={{ color: "black", border: "none", boxShadow: "none",  borderRadius: "0" }}
                             tableOfAvailableHours={props.arrayOfDailyHoursTable}
                             agendaInitialAvailableHour={props.agendaInitialAvailableHour}
                             agendaLastAvailableHour={props.agendaLastAvailableHour}
                 />
-            </SideTab>
+            </div>
             {props.currentWeek.map(day =>
-                <div className={classes.DayCard}>
-                        <div className={classes.CardHeader}>
+                <div className={classes.DayCard} key={day}>
+                    <div className={classes.CardHeader}>
                         <DayOfTheWeekCard
                             style={{fontSize: "1.2rem"}}
                             newDatesToVerboseHandler={props.newDatesToVerboseHandler}
@@ -45,13 +46,14 @@ export default function WeekMode(props) {
                         <DateCards today={day}
                                    goToClickedDate={props.goToClickedDate}
                                    monthGetter={props.monthGetter}
-                                   newDatesToVerboseHandler={props.newDatesToVerboseHandler}/>
-                        </div>
+                                   newDatesToVerboseHandler={props.newDatesToVerboseHandler}
+                                   calendarViewType={props.calendarViewType}/>
+                    </div>
                     <div className={classes.InnerTableData}
                          ref={ref}>
-                    <TimeTables tableOfAvailableHours={props.arrayOfDailyHoursTable}/>
+                        <TimeTables tableOfAvailableHours={props.arrayOfDailyHoursTable}/>
                         {props.dataToBeRendered.filter(cl => cl.classDate === day).map(cl =>
-                            <React.Fragment>
+                            <React.Fragment key={cl.id}>
                                 <EventCard currDay={day}
                                            classDate={cl.classDate}
                                            classTitle={cl.classTitle}
@@ -59,7 +61,6 @@ export default function WeekMode(props) {
                                            classDuration={cl.duration}
                                            classTime={cl.classTime}
                                            classInitialAvailableHour={props.agendaInitialAvailableHour}
-                                           key={cl.id}
                                            displayFullEventCard={props.displayDialogBoxHandler}/>
                                 <Transition key={cl.id} timeout={500} in={day === props.dialogBoxData.displayDialogBox}>
                                     {state => {
@@ -101,6 +102,5 @@ export default function WeekMode(props) {
                             </React.Fragment>)}
                     </div>
                 </div>)}
-            <SideTab />
         </div>
     )}

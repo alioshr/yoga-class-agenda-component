@@ -11,7 +11,7 @@ export default function EmptyTables(props) {
   if(props.appViewMode === "DayMode")
     todayIsPresentInScreenToRenderCurrentHour = new Date().setHours(0,0,0,0).valueOf() === props.currAgendaData;
   return (
-      <div className={classes.EmptyTableWrapper}>
+      <div className={classes.EmptyTableWrapper} style={props.outerStyle}>
         {props.style !== undefined && showCurrentTime && todayIsPresentInScreenToRenderCurrentHour?
             <CurrentTime currentTime={calculateCurrentTime}
                          dayCardContainerWidth={props.dayCardContainerWidth}
