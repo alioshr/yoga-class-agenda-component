@@ -1,4 +1,4 @@
-import React, {Fragment} from 'react'
+import React from 'react'
 import DateCards from "../../../Components/DateCards.js/DateCards";
 import DayOfTheWeekCard from "../../../Components/DayOfTheWeekCard/DayOfTheWeekCard"
 import classes from './CalendarMode.module.css'

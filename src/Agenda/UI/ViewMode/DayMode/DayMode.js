@@ -10,8 +10,8 @@ import RightArrow from "../../NavigationButtons/RightArrow/RightArrow";
 export default function DayMode(props) {
     const ref = useRef();
     const [dimensions, setDimensions] = useState(0);
-    const [mouseX, setMouseX] = useState(0);
-    const [mouseY, setMouseY] = useState(0);
+    /*const [mouseX, setMouseX] = useState(0);
+    const [mouseY, setMouseY] = useState(0);*/
     const updateDimensions = () => {
         setDimensions(ref.current.getBoundingClientRect());
     };
@@ -22,10 +22,10 @@ export default function DayMode(props) {
             window.removeEventListener("resize", updateDimensions)
         }
     }, []);
-    const mouseMoveHandler = event => {
+    /*const mouseMoveHandler = event => {
         setMouseX(event.screenX);
         setMouseY(event.screenY);
-    }
+    }*/
     /* console.log("X: ", Math.round((mouseX - dimensions.x)/5)*5);
      console.log("Y: ", mouseY - dimensions.y - 79); // why there is an extra 79px here?*/
     const today = props.currentDay;
@@ -49,7 +49,7 @@ export default function DayMode(props) {
                                         agendaLastAvailableHour={props.agendaLastAvailableHour}
                             />
                         <div style={{width: "100%", position: "relative"}}
-                             onMouseMove={(event) => mouseMoveHandler(event)}
+                             /*onMouseMove={(event) => mouseMoveHandler(event)}*/
                              ref={ref}>
                             <TimeTables tableOfAvailableHours={props.arrayOfDailyHoursTable}/>
                             {props.dataToBeRendered.filter(cl => cl.classDate === today).map(cl =>
