@@ -6,6 +6,7 @@ import AgendaTitles from "../../AgendaTitles/AgendaTitles";
 import LeftArrow from "../../NavigationButtons/LeftArrow/LeftArrow";
 import TakeMeHome from "../../NavigationButtons/TakeMeHome/TakeMeHome";
 import RightArrow from "../../NavigationButtons/RightArrow/RightArrow";
+import classes from './DayMode.module.css'
 
 export default function DayMode(props) {
     const ref = useRef();
@@ -30,8 +31,8 @@ export default function DayMode(props) {
      console.log("Y: ", mouseY - dimensions.y - 79); // why there is an extra 79px here?*/
     const today = props.currentDay;
     return (
-            <div style={{display: "flex", flexDirection: "row", width: "100%"}}>
-                <div style={{display: "flex", flexDirection: "column", minWidth: "300px", width: '100%', marginTop: "10px"}}>
+            <div className={classes.DayModeWrapper}>
+                <div className={classes.LeftTabWrapper}>
                     <AgendaTitles newDatesToVerboseHandler={props.newDatesToVerboseHandler}
                                   monthGetter={props.monthGetter}
                                   currentMonth={props.currentMonth}
@@ -39,7 +40,7 @@ export default function DayMode(props) {
                                   currentDay={props.currentDay}
                                   appViewMode={props.appViewMode}
                                   calendarViewType={props.calendarViewType}/>
-                    <div style={{display: "flex", flexDirection: "row", minWidth: "300px"}}>
+                    <div className={classes.LeftTabInnerContent}>
                             <TimeTables currAgendaData={props.currentDay}
                                         appViewMode={props.appViewMode}
                                         dayCardContainerWidth={dimensions}
@@ -48,7 +49,7 @@ export default function DayMode(props) {
                                         agendaInitialAvailableHour={props.agendaInitialAvailableHour}
                                         agendaLastAvailableHour={props.agendaLastAvailableHour}
                             />
-                        <div style={{width: "100%", position: "relative"}}
+                        <div className={classes.LeftTabEventsArea}
                              /*onMouseMove={(event) => mouseMoveHandler(event)}*/
                              ref={ref}>
                             <TimeTables tableOfAvailableHours={props.arrayOfDailyHoursTable}/>
@@ -67,9 +68,9 @@ export default function DayMode(props) {
                         </div>
                     </div>
                 </div>
-                <div style={{maxWidth: "500px"}}>
-                    <div style={{width: "100%", height: "auto", position: "sticky", top: "10px"}}>
-                        <div style={{display: "flex", padding: "10px", justifyContent: "flex-end"}}>
+                <div className={classes.RightTabWrapper}>
+                    <div className={classes.RightTabInnerWrapper}>
+                        <div className={classes.RightTabControlPanel}>
                             <LeftArrow appNavigationHandler={props.appNavigationHandler}/>
                             <TakeMeHome takeMeToToday={props.takeMeToToday}/>
                             <RightArrow appNavigationHandler={props.appNavigationHandler}/>

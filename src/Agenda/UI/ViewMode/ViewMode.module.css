@@ -6,13 +6,14 @@
     justify-self: center;
     align-self: center;
     grid-column: 2/3;
+    padding: 10px;
 }
 
 .ViewModeItem {
     padding: 5px;
-    font-size: 10px;
-    width: 50px;
-    background-color: #f8f8f8;
+    font-size: 14px;
+    width: 70px;
+    background-color: #e5e2e2;
     color: #443a3c;
     font-weight: bold;
     cursor: pointer;

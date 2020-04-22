@@ -4,6 +4,21 @@
   width: 100%;
 }
 
+.SideTabWrapper {
+  display: flex;
+  flex-direction: column;
+  position: relative;
+}
+
+.SideTabHeader {
+  z-index: 1000;
+  background-color: white;
+  position: sticky;
+  top: 100px;
+  height: 77px;
+  margin-top: 90px
+}
+
 .CardHeader {
   height: auto; /*check if need to change this later back to 100px*/
   display: flex;
@@ -13,8 +28,9 @@
   background-color: white;
   z-index: 1000;
   position: sticky;
-  top: 80px;
-  margin-top: 78px;
+  top: 100px;
+  margin-top: 85px;
+  margin-bottom: 7px;
 }
 
 .DayCard {

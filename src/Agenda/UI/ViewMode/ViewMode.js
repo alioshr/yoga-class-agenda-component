@@ -2,6 +2,8 @@ import React from 'react'
 import classes from './ViewMode.module.css'
 
 export default function ViewMode(props) {
+    const edgeBorderStyle = {borderRadius: ""}
+
 return (
     <div className={classes.ViewModeContainer}>
         <div onClick={props.dayMode} className={classes.ViewModeItem}>Day</div>

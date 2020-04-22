@@ -1,0 +1,42 @@
+.DayModeWrapper {
+    display: flex;
+    flex-direction: row;
+    width: 100%;
+    margin-top: 30px
+}
+
+.LeftTabWrapper {
+    display: flex;
+    flex-direction: column;
+    min-width: 300px;
+    width: 100%
+}
+
+.LeftTabInnerContent {
+    display: flex;
+    flex-direction: row;
+    min-width: 300px;
+}
+
+.LeftTabEventsArea {
+    width: 100%;
+    position: relative
+}
+
+.RightTabWrapper {
+    max-width: 500px;
+}
+
+.RightTabInnerWrapper {
+    width: 100%;
+    height: auto;
+    position: sticky;
+    top: 30px;
+}
+
+.RightTabControlPanel {
+    display: flex;
+    padding: 10px;
+    justify-content: flex-end;
+}
+

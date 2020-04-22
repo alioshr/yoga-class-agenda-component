@@ -7,7 +7,7 @@ export default function AgendaTitles(props) {
         case("DayMode") :
             agendaTitles = props.currentDay !== "" ?
                <Fragment>
-                   <div style={{fontSize: '2.5rem', marginBottom: "5px"}}>
+                   <div style={{fontSize: '2.5rem', marginBottom: "5px", marginTop: "10px"}}>
                        {props.newDatesToVerboseHandler(props.monthGetter, "renderMonth")},
                        {new Date(props.currentDay).getDate()} {props.currentYear}
                    </div>

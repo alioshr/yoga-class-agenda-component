@@ -24,16 +24,16 @@ export default function WeekMode(props) {
     }, []);
     return (
         <div className={classes.WeekModeWrapper}>
-            <div style={{display: "flex", flexDirection: "column", position: "relative"}}>
-                <div style={{zIndex: "1000",backgroundColor:"white",position: "sticky", top: "78px", height: "79px", marginTop: "78px" }}/>
+            <div className={classes.SideTabWrapper}>
+                <div className={classes.SideTabHeader}/>
                 <TimeTables
-                            style={{ color: "black", border: "none", boxShadow: "none"}}
-                            currAgendaData={props.currentWeek}
-                            appViewMode={props.appViewMode}
-                            dayCardContainerWidth={dimensions.width}
-                            tableOfAvailableHours={props.arrayOfDailyHoursTable}
-                            agendaInitialAvailableHour={props.agendaInitialAvailableHour}
-                            agendaLastAvailableHour={props.agendaLastAvailableHour}
+                    style={{ color: "black", border: "none", boxShadow: "none"}}
+                    currAgendaData={props.currentWeek}
+                    appViewMode={props.appViewMode}
+                    dayCardContainerWidth={dimensions.width}
+                    tableOfAvailableHours={props.arrayOfDailyHoursTable}
+                    agendaInitialAvailableHour={props.agendaInitialAvailableHour}
+                    agendaLastAvailableHour={props.agendaLastAvailableHour}
                 />
             </div>
             {props.currentWeek.map(day =>
